@@ -1,8 +1,10 @@
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import Home from "./home";
-import Shop from "./shop";
-import Cart from "./cart";
+import Home from "../HomeScreen/home";
+import Shop from "../ShopScreen/shop";
+import Cart from "../cartScreen/cart";
+
+
 
 const Rout = ({shop,Filter,allcatefilter,addtocart,cart,setCart}) => {
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './home.css'
-import Homeproduct from "./home_product";
+import Homeproduct from "../home_product";
 import { Link } from "react-router-dom";
 import { AiFillEye, AiOutlineShoppingCart } from "react-icons/ai";
 import { AiFillHeart } from "react-icons/ai";

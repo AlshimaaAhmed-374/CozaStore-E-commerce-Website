@@ -1,6 +1,11 @@
 const express = require('express')
+const dotenv = require('dotenv');
+const connectDB   = require('./config/db.js')
+
+dotenv.config();
 
 const app=express();
+
 
 app.listen(5000, () => {
 	//connectDB();

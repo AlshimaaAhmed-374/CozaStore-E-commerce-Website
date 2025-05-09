@@ -1,0 +1,226 @@
+/* About Page Styles */
+.about-page {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.breadcrumb span {
+  color: #4a90e2;
+  cursor: pointer;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 60px 0;
+  background: #f9f9f9;
+  margin-bottom: 60px;
+  border-radius: 8px;
+}
+
+.hero-section h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.hero-section h2 {
+  font-size: 48px;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.hero-section h2 span {
+  color: #4a90e2;
+}
+
+.hero-section p {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  line-height: 1.8;
+  color: #666;
+}
+
+.contact-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.contact-btn:hover {
+  background: #3a7bc8;
+  transform: translateY(-2px);
+}
+
+/* Skills Section */
+.skills-section {
+  margin-bottom: 80px;
+}
+
+.skills-section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.skills-section p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  width: 200px;
+  margin: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 16px;
+}
+
+.skill-bars {
+  max-width: 800px;
+  margin: 60px auto 0;
+}
+
+.skill-item {
+  margin-bottom: 30px;
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.skill-bar {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  background: #4a90e2;
+  border-radius: 4px;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 80px 20px;
+  background: #4a90e2;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 60px;
+}
+
+.cta-section h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.cta-btn {
+  background: white;
+  color: #4a90e2;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 28px;
+  }
+  
+  .hero-section h2 {
+    font-size: 36px;
+  }
+  
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-item {
+    width: 80%;
+  }
+  
+  .cta-section h2 {
+    font-size: 24px;
+  }
+}
+
+
+
+/* Add to your existing CSS file */
+.hero-section .link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: #4a90e2; /* Primary color */
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  text-align: center;
+}
+
+.hero-section .link:hover {
+  background-color: #3a7bc8; /* Darker shade on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section .link:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

@@ -9,7 +9,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Nav = ({search,setSearch,searchproduct}) => {
     const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
-
     return (
         <>
             <div className="header">
@@ -82,8 +81,11 @@ const Nav = ({search,setSearch,searchproduct}) => {
                             <li><Link to='/' className='link'>Home</Link></li>
                             <li><Link to='/shop' className='link'>Shop</Link></li>
                             <li><Link to='/cart' className='link'>Cart</Link></li>
-                            <li><Link to='/about' className='link'>About</Link></li>
-                            <li><Link to='/contact' className='link'>Contact</Link></li>
+                            <li><Link to='/about-page' className='link'>About</Link></li>
+                            <li><Link to='/contact-page' className='link'>Contact</Link></li>
+                            <li><Link to='/profile-page' className='link'>
+                            Profile 
+                            </Link></li>
                         </ul>
                     </div>
 

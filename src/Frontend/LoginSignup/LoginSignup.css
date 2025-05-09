@@ -1,21 +1,5 @@
-:root {
-  --primary-color: #3c00cd;
-  --secondary-color: #6a00ff;
-  --error-color: #ff4444;
-  --text-color: #333;
-  --placeholder-color: #999;
-  --light-gray: #f8f8f8;
-  --border-color: #e0e0e0;
-  --hover-border-color: #c0c0c0;
-  --white: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --transition: all 0.2s ease-in-out;
-}
-
-/* Center the container vertically and horizontally */
-body, html {
+/* Global body and html styles for login/signup pages */
+body.login-body, html.login-body {
   height: 100%;
   margin: 0;
   display: flex;
@@ -24,7 +8,7 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
+.containerLogin {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,10 +19,10 @@ body, html {
   border-radius: 1.25rem;
   box-shadow: var(--shadow-lg);
   transition: var(--transition);
-  margin: 1rem; /* Added margin for small screens */
+  margin: 1rem;
 }
 
-.header {
+.headerLogin {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,17 +69,6 @@ body, html {
   padding: 0 1rem;
   box-sizing: border-box; /* Added to fix sizing issues */
 }
-
-/* .input-field:hover {
-  border-color: var(--hover-border-color);
-  box-shadow: var(--shadow-sm);
-} */
-
-/* .input-field:focus-within {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(60, 0, 205, 0.1);
-  background: var(--white);
-} */
 
 .input-field img {
   width: 1.1rem;
@@ -171,60 +144,60 @@ body, html {
   box-shadow: none;
 }
 
-/* Responsive adjustments - completely rewritten */
+/* Responsive adjustments */
 @media (max-width: 600px) {
   body, html {
     display: block;
     padding: 1rem;
   }
-  
-  .container {
+
+  .containerLogin {
     padding: 1.5rem;
     margin: 2rem auto; /* Center with margin */
     max-width: 100%;
     border-radius: 1rem;
   }
-  
+
   .text {
     font-size: 1.75rem;
   }
-  
+
   .inputs-container {
     margin-top: 1.5rem;
     gap: 1rem;
   }
-  
+
   .input-field {
     height: 3rem;
     padding: 0 0.875rem;
   }
-  
+
   .input-field img {
     width: 1rem;
     height: 1rem;
     margin-right: 0.625rem;
   }
-  
+
   .input-field input {
     font-size: 0.875rem;
   }
-  
+
   .submit-container {
     flex-direction: column;
     gap: 0.75rem;
     margin: 1.5rem 0 0;
   }
-  
+
   .submit, .submit-action {
     height: 3rem;
     font-size: 0.9375rem;
   }
-  
+
   .error-message {
     font-size: 0.75rem;
     margin-top: -0.5rem;
   }
-  
+
   .forgot-password {
     font-size: 0.8125rem;
     margin: 0.75rem 0 0;
@@ -233,18 +206,18 @@ body, html {
 
 /* Very small devices (phones, 400px and down) */
 @media (max-width: 400px) {
-  .container {
+  .containerLogin {
     padding: 1.25rem;
   }
-  
+
   .text {
     font-size: 1.5rem;
   }
-  
+
   .input-field {
     height: 2.75rem;
   }
-  
+
   .submit, .submit-action {
     height: 2.75rem;
   }

@@ -625,3 +625,49 @@ margin-left: 90px;
     background: #232323;
 
 }
+
+
+
+/* Add to your shop.css */
+.icon li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 5px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon li:hover {
+    background: #fff;
+    transform: translateY(-5px);
+}
+
+.icon li.active {
+    color: #e74c3c;
+}
+
+.icon li.active:hover {
+    color: #c0392b;
+}
+
+/* Add this to your shop.css */
+.shop .containar .right_box .product_box .product_container .box .img_box .icon li.active {
+    color: #e74c3c !important;
+    background: #fff !important;
+}
+
+.shop .containar .right_box .product_box .product_container .box .img_box .icon li.active:hover {
+    color: #c0392b !important;
+    background: #fff !important;
+}
+
+.shop .containar .right_box .product_box .product_container .box .img_box .icon li svg {
+    pointer-events: none; /* Prevents the SVG from blocking clicks */
+}

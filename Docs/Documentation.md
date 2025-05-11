@@ -106,3 +106,94 @@ This project focuses on implementing the core functionalities required for an on
 
 ---
 
+## Functional Requirements:
+
+### 1. 👤 User Authentication & Management:
+
+#### 1.1 🧑‍💼 User Registration
+
+- **Description**: Allows new users to create an account.
+- **Pre-condition**:
+  - The user is not logged in.
+  - The user provides a unique username, valid email, and password.
+- **Post-condition**:
+  - A new user account is created.
+  - Password is securely hashed using **`bcrypt`**.
+
+---
+
+#### 1.2 🔐 User Login
+
+- **Description**: Authenticates a user using email and password.
+- **Pre-condition**:
+  - The user has an existing account.
+  - The provided credentials are valid.
+- **Post-condition**:
+  - User is authenticated.
+  - A session or authentication token is created.
+
+---
+
+### 2. 🛒 Product Browsing & Interaction
+
+#### 2.1 🛍️ Browse and Filter Products
+
+- **Description**: Users can view and filter products by category, or tags (Trending, New, Featured, Top-Selling).
+- **Pre-condition**:
+  - User navigates the home page or shop page then select the filer.
+- **Post-condition**:
+  - Products matching the selected filters are displayed.
+
+---
+
+#### 2.2 🧺 Add Product to Cart/Wishlist
+
+- **Description**: Users can add selected products to their shopping cart or wishlist.
+- **Pre-condition**:
+  - User is logged in.
+  - User is viewing a product.
+  - User press on the **heart icon** in the product view to add it to the wishing-list or press on the **add to cart** button.
+- **Post-condition**:
+  - Product is added to the wishlist or to cart.
+
+---
+
+### 3. 🧾 Order Management
+
+#### 3.1 💳 Place an Order
+
+- **Description**: Users can purchase products in their cart.
+- **Pre-condition**:
+  - User is logged in.
+  - Cart contains products.
+  - Payment information is provided.
+- **Post-condition**:
+  - An order is created.
+  - Total amount is calculated and saved.
+  - Order status is set to `pending`.
+
+---
+
+#### 3.2 🧾 View Order History
+
+- **Description**: Users can view a list of all their past orders.
+- **Pre-condition**:
+  - User is logged in.
+  - User navigates the **profile** page then select the **order history** filter.
+- **Post-condition**:
+  - List of user's orders is retrieved and displayed.
+
+---
+
+### 4. 📞 Customer Support
+
+#### 4.1 📬 Contact Support
+
+- **Description**: Users can submit inquiries or issues via a contact form.
+- **Pre-condition**:
+  - User fills in the contact form with valid data.
+- **Post-condition**:
+  - Support request is submitted to the admin/support team.
+
+---
+

@@ -235,7 +235,6 @@ graph TD
 |**Authentication**|	bcrypt + sessions or JWT|
 |**Config**|	.env for DB URI, secret keys|
 
-
 ### 2.2 Environment Variables
 
 |Item|Details|
@@ -294,7 +293,6 @@ erDiagram
     }
 
     Order {
-      object user
       string status
       number totalAmount
       array products
@@ -302,3 +300,95 @@ erDiagram
 ```
 
 ---
+
+## 📦 Database Schema
+
+```mermaid
+
+erDiagram
+    USER ||--o{ ORDER : "places"
+    PRODUCT ||--o{ ORDER : "contained in"
+
+    USER {
+        string username PK 
+        string email 
+        string password 
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    
+    PRODUCT {
+        number id PK 
+        string name 
+        number price 
+        string img 
+        string details 
+        string cat 
+        string type 
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    
+    ORDER {
+        ObjectId _id PK
+        ObjectId user FK 
+        array products 
+        number totalAmount 
+        string status 
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+```
+---
+### 🧑‍💼 Users Collection
+
+|Field |Type |Constraints |Description |
+|------|-----|------------|------------|
+|**Username** |String |Required, Unique, Trimmed |Unique username for the user |
+|**Email** |String |Required, Unique, Valid email format |User's email address |
+|**Password** |String |Required, Minlength: 8, Hashed | Encrypted user password |
+|**CreatedAt** |Date   |Auto-generated |Timestamp of creation |
+|**UpdatedAt** |Date   |Auto-generated |Timestamp of last update |
+
+🔐 Passwords are hashed using bcryptjs before saving to the database
+
+---
+
+### 🛍️ Products Collection
+
+| Field | Type | Constraints | Description |
+|-------|------|-------------|-------------|
+| **Id** | Number | Required, Unique | Product identifier |
+| **Name** | String | Required | Product name |
+| **Price** | Number | Required | Price of the product |
+| **Img** | String | Required | URL of the product image |
+| **Details** | String | Required | Description/details of the product |
+| **Cat** | String | Required | Category of the product |
+| **Type** | String | Required | Type/variant of the product |
+| **CreatedAt** | Date | Auto-generated | Timestamp of creation |
+| **UpdatedAt** | Date | Auto-generated | Timestamp of last update |
+
+---
+
+### 📦 Orders Collection
+
+| Field | Type | Constraints | Description |
+|-------|------|-------------|-------------|
+| **User** | ObjectId | Required, Ref: User | ID of the user who placed the order |
+| **Products** | Array | Contains: product ref, quantity, purchased price | List of ordered items with details |
+| **TotalAmount** | Number | Required | Total price for the entire order |
+| **Status** | String | Enum: pending, completed, cancelled | Current status of the order |
+| **CreatedAt** | Date | Auto-generated | Timestamp of order creation |
+| **UpdatedAt** | Date | Auto-generated | Timestamp of last order update |
+
+---
+
+### 🔄 Relationships & Constraints
+
+- **One-to-Many**: A User can place many Orders.
+
+- **Many-to-One**: Each Order references a single User.
+
+- **Many-to-Many (via embedded array)**: An Order can contain multiple Products, and each product can appear in multiple orders.
+

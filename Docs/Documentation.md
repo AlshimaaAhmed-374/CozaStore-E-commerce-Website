@@ -197,3 +197,108 @@ This project focuses on implementing the core functionalities required for an on
 
 ---
 
+
+# 📄 Technical Requirements
+
+## 1. 🏗️ Architecture & Components
+
+### 1.1 System Architecture
+
+```mermaid
+
+graph TD
+    A[Client] --> B[Frontend: React.js]
+    B --> C[Backend: Node.js/Express]
+    C --> D[Database: MongoDB]
+    C --> E[Payment Gateway]
+    C --> F[Email Service]
+    
+```
+
+### 1.2 Key Components
+
+|Component| Technology | Responsibility|
+|---------|------------|---------------|
+|**Frontend**| `React`, `HTML/CSS`, `JavaScript` (interacts with backend via `API`).| It provides UI rendering, filtering, cart/wishlist management.|
+|**Backend**| `Node.js` with `Express.js`.| It contains API logic, sessions, and authentication.|
+|**Database**| `MongoDB` (accessed via `Mongoose`).| It Store users, products, orders.|
+|**Authentication**| `Bcrypt`| password hashing and session/token-based authentication.|
+
+
+## 2. 💾 Infrastructure Requirements
+
+### 2.1 Server Setup
+|Item|Details|
+|----|--------|
+|**Web Server**|	Node.js + Express|
+|**Database**|	MongoDB|
+|**Authentication**|	bcrypt + sessions or JWT|
+|**Config**|	.env for DB URI, secret keys|
+
+
+### 2.2 Environment Variables
+
+|Item|Details|
+|----|--------|
+|`MONGODB_URI`| MongoDB connection string.|
+|`JWT_SECRET`| Secret key for token generation (if JWT used).|
+|`SESSION_SECRET`| For session handling (if using sessions).|
+|`PORT`| Server port.|
+
+### 2.3 Third-Party Services
+
+|Item|Details|
+|----|--------|
+|**Email**| SendGrid / Nodemailer with SMTP.|
+|**Payment Gateway**| Stripe / PayPal.|
+
+---
+
+## 3. 🔧 Development Tools & Libraries
+
+|Category |Tool |Purpose |
+|---------|-----|--------|
+|**Language**|	JavaScript|	Main language|
+|**Runtime**|	Node.js|	Server-side runtime|
+|**Framework**|	Express|	REST API|
+|**DB**|	MongoDB + Mongoose|	NoSQL + modeling|
+|**Auth**|	bcryptjs|	Password hashing|
+|**Environment**|	dotenv|	Env variables|
+|**Frontend**|	React| UI rendering|
+|**VCS**|	Git + GitHub|	Version control|
+|**Diagramming**|	Mermaid|	Visual diagrams|
+
+---
+
+## 4. 🧩 Entity Relationship Overview
+
+```mermaid
+erDiagram
+    User ||--o{ Order : places
+    Order }o--|| Product : contains
+
+    User {
+      string username
+      string email
+      string password
+    }
+
+    Product {
+      number id
+      string name
+      number price
+      string img
+      string details
+      string cat
+      string type
+    }
+
+    Order {
+      object user
+      string status
+      number totalAmount
+      array products
+    }
+```
+
+---

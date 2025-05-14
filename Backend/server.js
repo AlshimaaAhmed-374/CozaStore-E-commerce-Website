@@ -42,7 +42,6 @@ app.use('/home', homeRoutes);
 app.use('/shop', shopRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 
-
 // Starting the server
 app.listen(PORT, () => {
     connectDB();  // Make sure you call the function to connect to MongoDB here

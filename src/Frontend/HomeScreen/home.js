@@ -18,8 +18,8 @@ const Home = ({ addtocart }) => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/products/all');
-            const data = response.data;
+            const response = await axios.get('http://localhost:5000/home/all');
+            const data = response.data.data;
             // Ensure data is an array
             if (Array.isArray(data)) {
                 setNewProduct(data.filter(x => x.type === 'new'));
@@ -27,7 +27,7 @@ const Home = ({ addtocart }) => {
                 setTopProduct(data.filter(x => x.type === 'top'));
                 setTrendingProduct(data);
             } else {
-                console.error('Fetched data is not an array');
+                console.error('Fetched data is not an array:', data);
             }
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -35,8 +35,8 @@ const Home = ({ addtocart }) => {
     };
     const fetchFilteredProducts = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:5000/products?type=${type}`);
-            const data = response.data;
+            const response = await axios.get(`http://localhost:5000/home?type=${type}`);
+            const data = response.data.data;
             // Ensure data is an array
             if (Array.isArray(data)) {
                 setTrendingProduct(data);
@@ -48,8 +48,7 @@ const Home = ({ addtocart }) => {
         }
     };
     const filterCate = (type) => {
-        const filtered = fetchFilteredProducts(type);
-        setTrendingProduct(filtered);
+        fetchFilteredProducts(type);
     };
 
     const allTrendingProduct = () => {
@@ -109,7 +108,6 @@ const Home = ({ addtocart }) => {
                                     </div>
                                 ))}
                             </div>
-                            <button>Show More</button>
                         </div>
                     </div>
 
@@ -147,24 +145,6 @@ const Home = ({ addtocart }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="banners">
-                <div className="container">
-                    <div className="left_box">
-                        <div className="box"><img src='img/image5.png' alt='banner' /></div>
-                        <div className="box"><img src='img/image.png' alt='banner' /></div>
-                    </div>
-                    <div className="right_box">
-                        <div className="top">
-                            <img src='img/image5.png' alt='banner' />
-                            <img src='img/image5.png' alt='banner' />
-                        </div>
-                        <div className="bottom">
-                            <img src='img/.png' alt='banner' />
                         </div>
                     </div>
                 </div>

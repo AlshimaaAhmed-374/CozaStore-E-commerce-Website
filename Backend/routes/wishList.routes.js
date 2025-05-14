@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addToWishlist, removeFromWishlist, getWishlist,checkWishlist } = require('../controllers/productsController');
+const { addToWishlist, removeFromWishlist, getWishlist,checkWishlist } = require('../controllers/wishListController.js');
 
 
 router.post('/', addToWishlist);

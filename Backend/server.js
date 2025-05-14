@@ -1,33 +1,44 @@
+const express = require('express');
 const dotenv = require('dotenv');
-const express = require('express')
-const connectDB   = require('./config/db.js')
-const Product =require ("./models/products.model.js")
+const authRoutes = require('./routes/auth_route');
+const CookieParser = require('cookie-parser');
+const connectDB = require('./config/db.js');
+const cors = require('cors');
+const { requireAuth } = require('./middleware/authMiddleware');
+
+
 dotenv.config();
 
-const app=express();
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(CookieParser());
+
+// Configure CORS to allow specific origin and credentials
+app.use(cors({
+  origin: 'http://localhost:3000', // Your React app
+  credentials: true,               // Allow cookies
+}));
+
+// Routes
+app.use(authRoutes);
 const PORT = process.env.PORT || 5000
+
 
 app.use(express.json()) // allows us to accept JSON data in the req.body
 
 
-app.get("/api/home",async(req,res)=>{
-	try{
-		const {type} = req.query
-		const filter = {}
-		if(type){
-		 filter.type = {type: String(type) }
-		}
 
-		 const products = await Product.find(filter)
-		 res.status(200).json({success:true , data: products })
-	}catch(error){
-		console.log("Error fetching products:", error.message)
-		res.status(500).json({success:false,message:"Server Error"})
-	}
-
-})
 
 app.listen(PORT, () => {
 	connectDB();
 	console.log("Server started at http://localhost: " + PORT);
 });
+
+// Check JWT_SECRET in .env
+if (!process.env.JWT_SECRET) {
+  console.error("❌ JWT_SECRET is not defined! Make sure the .env file exists and is properly configured.");
+} else {
+  console.log("✅ JWT_SECRET loaded successfully:", process.env.JWT_SECRET);
+};

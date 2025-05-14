@@ -34,6 +34,29 @@
   line-height: 1.6;
 }
 
+/* Feedback submission status messages */
+.submit-message {
+  padding: 15px;
+  margin-bottom: 25px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.submit-message.success {
+  background-color: #e6f7ee;
+  color: #28a745;
+  border: 1px solid #b7ebc9;
+}
+
+.submit-message.error {
+  background-color: #feecec;
+  color: #dc3545;
+  border: 1px solid #f5c2c7;
+}
+
 .form-group {
   margin-bottom: 25px;
 }
@@ -74,11 +97,39 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .send-button:hover {
   background-color: #3a7bc8;
+  transform: translateY(-1px);
+}
+
+/* Disabled button state */
+.send-button:disabled {
+  background-color: #a0c4f7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading spinner for button */
+.send-button.loading::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .contact-info {

@@ -1,33 +1,49 @@
 import React, { useEffect, useState } from "react";
 import './home.css';
-import Homeproduct from "../home_product";
 import { Link } from "react-router-dom";
 import { AiFillEye, AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
 import { BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiLogoYoutube } from "react-icons/bi";
 import { useWishlist } from '../WishlistContexttt';
+import axios from 'axios';
+
 const Home = ({ addtocart }) => {
     const [newProduct, setNewProduct] = useState([]);
     const [featuredProduct, setFeaturedProduct] = useState([]);
     const [topProduct, setTopProduct] = useState([]);
-    const [trendingProduct, setTrendingProduct] = useState(Homeproduct);
+    const [trendingProduct, setTrendingProduct] = useState([]);
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
     useEffect(() => {
-        productCategory();
+        fetchProducts();
     }, []);
 
-    const productCategory = () => {
-        setNewProduct(Homeproduct.filter(x => x.type === 'new'));
-        setFeaturedProduct(Homeproduct.filter(x => x.type === 'featured'));
-        setTopProduct(Homeproduct.filter(x => x.type === 'top'));
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/products/all');
+            const data = response.data;
+            setNewProduct(data.filter(x => x.type === 'new'));
+            setFeaturedProduct(data.filter(x => x.type === 'featured'));
+            setTopProduct(data.filter(x => x.type === 'top'));
+            setTrendingProduct(data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
     };
-
+    const fetchFilteredProducts = async (type) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/products?type=${type}`);
+            const data = response.data;
+            setTrendingProduct(data);
+        } catch (error) {
+            console.error(`Error fetching ${type} products:`, error);
+        }
+    };
     const filterCate = (type) => {
-        const filtered = Homeproduct.filter(item => item.type === type);
+        const filtered = fetchFilteredProducts(type);
         setTrendingProduct(filtered);
     };
 
     const allTrendingProduct = () => {
-        setTrendingProduct(Homeproduct);
+        fetchProducts();
     };
 
         const handleWishlistClick = (product) => {

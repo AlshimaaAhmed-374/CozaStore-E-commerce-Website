@@ -20,10 +20,15 @@ const Home = ({ addtocart }) => {
         try {
             const response = await axios.get('http://localhost:5000/products/all');
             const data = response.data;
-            setNewProduct(data.filter(x => x.type === 'new'));
-            setFeaturedProduct(data.filter(x => x.type === 'featured'));
-            setTopProduct(data.filter(x => x.type === 'top'));
-            setTrendingProduct(data);
+            // Ensure data is an array
+            if (Array.isArray(data)) {
+                setNewProduct(data.filter(x => x.type === 'new'));
+                setFeaturedProduct(data.filter(x => x.type === 'featured'));
+                setTopProduct(data.filter(x => x.type === 'top'));
+                setTrendingProduct(data);
+            } else {
+                console.error('Fetched data is not an array');
+            }
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -32,7 +37,12 @@ const Home = ({ addtocart }) => {
         try {
             const response = await axios.get(`http://localhost:5000/products?type=${type}`);
             const data = response.data;
-            setTrendingProduct(data);
+            // Ensure data is an array
+            if (Array.isArray(data)) {
+                setTrendingProduct(data);
+            } else {
+                console.error(`${type} products data is not an array`);
+            }
         } catch (error) {
             console.error(`Error fetching ${type} products:`, error);
         }

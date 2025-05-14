@@ -10,10 +10,9 @@ const LoginSignup = ({ onLogin }) => {
   const [action, setAction] = useState('Sign Up');
 
   useEffect(() => {
-    document.body.classList.add('login-body'); // Add class on mount
-
+    document.body.classList.add('login-body');
     return () => {
-      document.body.classList.remove('login-body'); // Clean up on unmount
+      document.body.classList.remove('login-body');
     };
   }, []);
 
@@ -22,20 +21,13 @@ const LoginSignup = ({ onLogin }) => {
       .min(3, 'Username must be at least 3 characters')
       .max(20, 'Username must be 20 characters or less')
       .required('Username is required'),
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required')
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
   const loginValidationSchema = Yup.object({
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-    password: Yup.string()
-      .required('Password is required')
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const formik = useFormik({
@@ -45,8 +37,50 @@ const LoginSignup = ({ onLogin }) => {
       password: ''
     },
     validationSchema: action === 'Sign Up' ? signUpValidationSchema : loginValidationSchema,
-    onSubmit: (values) => {
-      onLogin(); // Trigger the onLogin function passed from App.js
+    onSubmit: async (values) => {
+      try {
+        const endpoint = action === 'Sign Up' ? 'signup' : 'login';
+        const url = `http://localhost:5000/${endpoint}`;
+
+        const payload = action === 'Sign Up'
+          ? values
+          : {
+              email: values.email,
+              password: values.password
+            };
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || `${action} failed`);
+        }
+
+        console.log(`${action} success:`, data);
+
+        if (action === 'Login') {
+          if (onLogin && data.user) {
+            onLogin(data.user);  // Navigate to Home
+          } else {
+            console.log('Logged in but no user returned.');
+          }
+        } else {
+          // After successful Sign Up, switch to Login screen
+          alert('Sign up successful! Please log in.');
+          setAction('Login');
+        }
+
+        formik.resetForm();
+      } catch (error) {
+        console.error(`${action} error:`, error.message);
+        alert(error.message);
+      }
     }
   });
 

@@ -1,33 +1,58 @@
 import React, { useEffect, useState } from "react";
 import './home.css';
-import Homeproduct from "../home_product";
 import { Link } from "react-router-dom";
 import { AiFillEye, AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
 import { BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiLogoYoutube } from "react-icons/bi";
 import { useWishlist } from '../WishlistContexttt';
+import axios from 'axios';
+
 const Home = ({ addtocart }) => {
     const [newProduct, setNewProduct] = useState([]);
     const [featuredProduct, setFeaturedProduct] = useState([]);
     const [topProduct, setTopProduct] = useState([]);
-    const [trendingProduct, setTrendingProduct] = useState(Homeproduct);
+    const [trendingProduct, setTrendingProduct] = useState([]);
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
     useEffect(() => {
-        productCategory();
+        fetchProducts();
     }, []);
 
-    const productCategory = () => {
-        setNewProduct(Homeproduct.filter(x => x.type === 'new'));
-        setFeaturedProduct(Homeproduct.filter(x => x.type === 'featured'));
-        setTopProduct(Homeproduct.filter(x => x.type === 'top'));
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/home/all');
+            const data = response.data.data;
+            // Ensure data is an array
+            if (Array.isArray(data)) {
+                setNewProduct(data.filter(x => x.type === 'new'));
+                setFeaturedProduct(data.filter(x => x.type === 'featured'));
+                setTopProduct(data.filter(x => x.type === 'top'));
+                setTrendingProduct(data);
+            } else {
+                console.error('Fetched data is not an array:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
     };
-
+    const fetchFilteredProducts = async (type) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/home?type=${type}`);
+            const data = response.data.data;
+            // Ensure data is an array
+            if (Array.isArray(data)) {
+                setTrendingProduct(data);
+            } else {
+                console.error(`${type} products data is not an array`);
+            }
+        } catch (error) {
+            console.error(`Error fetching ${type} products:`, error);
+        }
+    };
     const filterCate = (type) => {
-        const filtered = Homeproduct.filter(item => item.type === type);
-        setTrendingProduct(filtered);
+        fetchFilteredProducts(type);
     };
 
     const allTrendingProduct = () => {
-        setTrendingProduct(Homeproduct);
+        fetchProducts();
     };
 
         const handleWishlistClick = (product) => {
@@ -83,7 +108,6 @@ const Home = ({ addtocart }) => {
                                     </div>
                                 ))}
                             </div>
-                            <button>Show More</button>
                         </div>
                     </div>
 
@@ -121,24 +145,6 @@ const Home = ({ addtocart }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="banners">
-                <div className="container">
-                    <div className="left_box">
-                        <div className="box"><img src='img/image5.png' alt='banner' /></div>
-                        <div className="box"><img src='img/image.png' alt='banner' /></div>
-                    </div>
-                    <div className="right_box">
-                        <div className="top">
-                            <img src='img/image5.png' alt='banner' />
-                            <img src='img/image5.png' alt='banner' />
-                        </div>
-                        <div className="bottom">
-                            <img src='img/.png' alt='banner' />
                         </div>
                     </div>
                 </div>

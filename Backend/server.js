@@ -10,7 +10,11 @@ const feedbackRoutes = require('./routes/Feedback_Route');
 //const { requireAuth } = require('./middleware/authMiddleware');
 const profileRoutes = require('./routes/Profile_Route');
 
+
 dotenv.config();
+const homeRoutes = require("./routes/home.routes.js");
+const shopRoutes = require("./routes/shop.routes.js");
+const wishlistRoutes = require("./routes/wishList.routes.js");
 
 const app = express();
 
@@ -30,8 +34,13 @@ app.use('/api/users', profileRoutes ); // Protect profile routes with authentica
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
-app.listen(5000, () => {
-  connectDB();
-  console.log("Server started at http://localhost:" + 5000);
+app.use('/home', homeRoutes);
+app.use('/shop', shopRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+
+// Starting the server
+app.listen(PORT, () => {
+    connectDB();  // Make sure you call the function to connect to MongoDB here
+    console.log("Server started at http://localhost:" + PORT);
 });
 

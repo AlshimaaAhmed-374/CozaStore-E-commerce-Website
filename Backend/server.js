@@ -4,7 +4,7 @@ const authRoutes = require('./routes/auth_route');
 const CookieParser = require('cookie-parser');
 const connectDB = require('./config/db.js');
 const cors = require('cors');
-//const orderRoutes = require('./routes/Order_Route');
+const orderRoutes = require('./routes/Order_Route');
 const cartRoutes = require('./routes/Cart_Route');
 const feedbackRoutes = require('./routes/Feedback_Route');
 //const { requireAuth } = require('./middleware/authMiddleware');
@@ -38,7 +38,7 @@ app.use(express.json()); // allows us to accept JSON data in the req.body
 // Routes
 app.use('/api/users', profileRoutes ); // Protect profile routes with authentication middleware
 app.use('/api/feedback', feedbackRoutes);
-//app.use('/api/orders', orderRoutes);
+app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use(authRoutes);
 app.use('/home', homeRoutes);

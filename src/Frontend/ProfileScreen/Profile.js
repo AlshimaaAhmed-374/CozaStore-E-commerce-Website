@@ -22,6 +22,9 @@ const Profile = ({ addtocart,onLogout }) => {
         phone: '',
         address: ''
     });
+    const [orders, setOrders] = useState([]);
+    const [loadingOrders, setLoadingOrders] = useState(false);
+    const [errorOrders, setErrorOrders] = useState(null);
 
     const showMessage = (text) => {
     setMessage(text);
@@ -38,30 +41,54 @@ const Profile = ({ addtocart,onLogout }) => {
         }
     };
 
-    const [purchaseHistory] = useState([
-        { id: 1, orderId: 'ORD123', date: '2023-05-15', total: 89.97, items: 3, status: 'Delivered' },
-        { id: 2, orderId: 'ORD124', date: '2023-06-20', total: 129.99, items: 2, status: 'Shipped' },
-    ]);
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/api/users', {
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!res.ok) throw new Error('Failed to fetch user');
+                const data = await res.json();
+                setUser(data);
+                if (data.avatar) setAvatar(data.avatar);
+            } catch (err) {
+                console.error("Error fetching user:", err);
+            }
+        };
+        fetchUser();
+    }, []);
 
     useEffect(() => {
-       const fetchUser = async () => {
+        const fetchOrders = async () => {
+            if (activeTab === 'history') {
                 try {
-                    const res = await fetch('http://localhost:5000/api/users', {
+                    setLoadingOrders(true);
+                    setErrorOrders(null);
+                    const res = await fetch('http://localhost:5000/api/orders', {
                         credentials: 'include',
                         headers: {
                             'Content-Type': 'application/json'
                         }
                     });
-                    if (!res.ok) throw new Error('Failed to fetch user');
+                    
+                    if (!res.ok) throw new Error('Failed to fetch orders');
+                    
                     const data = await res.json();
-                    setUser(data);
-                    if (data.avatar) setAvatar(data.avatar);
+                    setOrders(data.data);
                 } catch (err) {
-                    console.error("Error fetching user:", err);
+                    console.error("Error fetching orders:", err);
+                    setErrorOrders(err.message);
+                } finally {
+                    setLoadingOrders(false);
                 }
+            }
         };
-        fetchUser();
-    }, []);
+        
+        fetchOrders();
+    }, [activeTab]);
 
     const handleAvatarChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -78,7 +105,7 @@ const Profile = ({ addtocart,onLogout }) => {
         setUser(prev => ({ ...prev, [name]: value }));
     };
 
-   const handleUpdateProfile = async () => {
+    const handleUpdateProfile = async () => {
         try {
             const formData = { ...user };
             if (avatar) formData.avatar = avatar;
@@ -103,7 +130,6 @@ const Profile = ({ addtocart,onLogout }) => {
         }
     };
 
-    
     return (
         <div className="profile-page">
             {message && (
@@ -203,27 +229,27 @@ const Profile = ({ addtocart,onLogout }) => {
                         <div className="history-section">
                             <h1>ORDER HISTORY</h1>
                             <div className="order-history">
-                                {purchaseHistory.length > 0 ? (
+                                {loadingOrders ? (
+                                    <p className="loading-message">Loading orders...</p>
+                                ) : errorOrders ? (
+                                    <p className="error-message">Error: {errorOrders}</p>
+                                ) : orders.length > 0 ? (
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Order ID</th>
                                                 <th>Date</th>
                                                 <th>Items</th>
                                                 <th>Total</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {purchaseHistory.map(order => (
-                                                <tr key={order.id}>
-                                                    <td>{order.orderId}</td>
-                                                    <td>{order.date}</td>
-                                                    <td>{order.items}</td>
-                                                    <td>${order.total}</td>
-                                                    <td>{order.status}</td>
-                                                    <td><button className="view-btn">View Details</button></td>
+                                            {orders.map(order => (
+                                                <tr key={order._id}>
+                                                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                                                    <td>{order.products.length}</td>
+                                                    <td>${order.totalAmount?.toFixed(2)}</td>
+                                                    <td>{order.status || 'Processing'}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

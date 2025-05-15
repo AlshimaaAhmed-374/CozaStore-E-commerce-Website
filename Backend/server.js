@@ -10,14 +10,13 @@ const feedbackRoutes = require('./routes/Feedback_Route');
 //const { requireAuth } = require('./middleware/authMiddleware');
 const profileRoutes = require('./routes/Profile_Route');
 
-
 dotenv.config();
 const homeRoutes = require("./routes/home.routes.js");
 const shopRoutes = require("./routes/shop.routes.js");
 const wishlistRoutes = require("./routes/wishList.routes.js");
 
 const app = express();
-
+app.use(CookieParser());
 // Middleware
 app.use(express.json());
 app.use(CookieParser());
@@ -28,15 +27,23 @@ app.use(cors({
   credentials: true,               // Allow cookies
 }));
 
+
+
+const PORT = process.env.PORT || 5000
+
+
+// Middlewares
+app.use(express.json()); // allows us to accept JSON data in the req.body
+
 // Routes
-app.use(authRoutes);
 app.use('/api/users', profileRoutes ); // Protect profile routes with authentication middleware
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
+app.use(authRoutes);
 app.use('/home', homeRoutes);
 app.use('/shop', shopRoutes);
-app.use('/api/wishlist', wishlistRoutes);
+app.use('/wishlist', wishlistRoutes);
 
 // Starting the server
 app.listen(5000, () => {

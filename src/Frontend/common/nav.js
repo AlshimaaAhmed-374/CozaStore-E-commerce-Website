@@ -2,10 +2,9 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { MdLocalShipping } from "react-icons/md";
 import './nav.css';
-import { AiOutlineSearch } from "react-icons/ai";
 import { CiLogout } from "react-icons/ci";
 
-const Nav = ({search,setSearch,searchproduct,onLogout}) => {
+const Nav = ({onLogout}) => {
         const handleLogoutClick = () => {
         onLogout(); // trigger logout logic passed from parent
     };

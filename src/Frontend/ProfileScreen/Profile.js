@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
-import { BiLogoFacebook, BiLogoTwitter, BiLogoInstagram } from "react-icons/bi";
 import { useWishlist } from "../WishlistContexttt";
 import './profile.css';
 import { Link, useNavigate } from "react-router-dom";
-import { FaShippingFast } from "react-icons/fa";
 
 const Profile = ({ addtocart,onLogout }) => {
     const navigate = useNavigate();
@@ -28,7 +26,7 @@ const Profile = ({ addtocart,onLogout }) => {
 
     const showMessage = (text) => {
     setMessage(text);
-    setTimeout(() => setMessage(""), 5000); // hide after 3 seconds
+    setTimeout(() => setMessage(""), 3000);
     };
 
     const handleWishlistClick = (product) => {
@@ -162,9 +160,6 @@ const Profile = ({ addtocart,onLogout }) => {
                                     <label htmlFor="avatar-upload" className="upload-btn">Upload Picture</label>
                                 </div>
                                 <div className="social-connect">
-                                    <button className="social-btn facebook"><BiLogoFacebook /> Add Facebook</button>
-                                    <button className="social-btn twitter"><BiLogoTwitter /> Add Twitter</button>
-                                    <button className="social-btn instagram"><BiLogoInstagram /> Add Instagram</button>
                                 </div>
                             </div>
 

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import './home.css';
 import { Link } from "react-router-dom";
-import { AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
+import { AiOutlineShoppingCart} from "react-icons/ai";
 import { BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiLogoYoutube } from "react-icons/bi";
 import { useWishlist } from '../WishlistContexttt';
-import { FaAccessibleIcon, FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
 import { FiHeart } from "react-icons/fi";
 
@@ -22,7 +21,7 @@ const Home = ({ addtocart,userId  }) => {
 
     const showMessage = (text) => {
     setMessage(text);
-    setTimeout(() => setMessage(""), 5000); // hide after 3 seconds
+    setTimeout(() => setMessage(""), 3000); // hide after 3 seconds
     };
 
     const fetchProducts = async () => {

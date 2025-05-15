@@ -4,10 +4,6 @@ import Login from './Frontend/Login/login';
 import Signup from './Frontend/Signup/signup';
 import { WishlistProvider } from './Frontend/WishlistContexttt.js';
 import CallHomeScreen from './Frontend/Main/CallHomeScreen';
-import Contact from "./Frontend/ContactScreen/Contact";
-import About from "./Frontend/AboutScreen/About";
-import Profile from "./Frontend/ProfileScreen/Profile";
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => sessionStorage.getItem('isLoggedIn') === 'true');
   const [userId, setUserId] = useState(() => sessionStorage.getItem('userId') || null);

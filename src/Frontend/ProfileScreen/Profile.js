@@ -4,14 +4,16 @@ import { BiLogoFacebook, BiLogoTwitter, BiLogoInstagram } from "react-icons/bi";
 import { useWishlist } from "../WishlistContexttt";
 import './profile.css';
 import { Link, useNavigate } from "react-router-dom";
+import { FaShippingFast } from "react-icons/fa";
 
-const Profile = ({ onLogout }) => {
+const Profile = ({ addtocart,onLogout }) => {
     const navigate = useNavigate();
     const handleLogout = () => {
         onLogout();
         navigate('/');
     };
-    
+    const [message, setMessage] = useState("");
+    const { wishlist,addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
     const [activeTab, setActiveTab] = useState('profile');
     const [avatar, setAvatar] = useState(null);
     const [user, setUser] = useState({
@@ -21,7 +23,20 @@ const Profile = ({ onLogout }) => {
         address: ''
     });
 
-    const { wishlist, removeFromWishlist } = useWishlist();
+    const showMessage = (text) => {
+    setMessage(text);
+    setTimeout(() => setMessage(""), 5000); // hide after 3 seconds
+    };
+
+    const handleWishlistClick = (product) => {
+        if (isInWishlist(product._id)) {
+            removeFromWishlist(product._id);
+            showMessage("Removed from wishlist!");
+        } else {
+            addToWishlist(product);
+            showMessage("Added to wishlist!");
+        }
+    };
 
     const [purchaseHistory] = useState([
         { id: 1, orderId: 'ORD123', date: '2023-05-15', total: 89.97, items: 3, status: 'Delivered' },
@@ -79,7 +94,6 @@ const Profile = ({ onLogout }) => {
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Update failed');
-            
             alert("Profile updated successfully!");
             setUser(data.data);
             if (data.data.avatar) setAvatar(data.data.avatar);
@@ -92,13 +106,18 @@ const Profile = ({ onLogout }) => {
     
     return (
         <div className="profile-page">
+            {message && (
+                <div className="message-popup">
+                    {message}
+                </div>
+                )}
             <div className="profile-container">
                 <div className="profile-sidebar">
                     <div className="sidebar-menu">
                         <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>Profile</button>
                         <button className={activeTab === 'wishlist' ? 'active' : ''} onClick={() => setActiveTab('wishlist')}>Wishlist ({wishlist.length})</button>
                         <button className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>Order History</button>
-                       <button className="signout-btn" onClick={handleLogout}>Sign Out</button>
+                        <button className="signout-btn" onClick={handleLogout}>Sign Out</button>
                     </div>
                 </div>
 
@@ -107,7 +126,6 @@ const Profile = ({ onLogout }) => {
                         <div className="profile-info">
                             <h1>PROFILE</h1>
                             <div className="avatar-section">
-                                <h2>Avatar picture</h2>
                                 <div className="avatar-upload">
                                     {avatar ? (
                                         <img src={avatar} alt="User Avatar" className="avatar-preview" />
@@ -156,15 +174,17 @@ const Profile = ({ onLogout }) => {
                                     wishlist.map(product => (
                                         <div className="wishlist-item" key={product.id}>
                                             <div className="product-image">
-                                                <img src={product.img} alt={product.Name} />
+                                                <img src={product.img} alt={product.name} />
                                             </div>
                                             <div className="product-info">
-                                                <h3>{product.Name}</h3>
+                                                <h3>{product.name}</h3>
                                                 <p>${product.price}</p>
                                             </div>
                                             <div className="product-actions">
-                                                <button className="action-btn heart active" onClick={() => removeFromWishlist(product.id)}><AiFillHeart /></button>
-                                                <button className="action-btn cart"><AiOutlineShoppingCart /></button>
+                                                <button className="action-btn heart active" onClick={() => handleWishlistClick(product)}><AiFillHeart /></button>
+                                                <button className="action-btn" onClick={() => {
+                                                addtocart(product);
+                                                showMessage("Successfully added to cart!");}}><AiOutlineShoppingCart /></button>
                                             </div>
                                         </div>
                                     ))

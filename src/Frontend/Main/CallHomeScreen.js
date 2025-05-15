@@ -9,7 +9,6 @@ const CallHomeScreen = ({ onLogout }) => {
   const [shop, setShop] = useState(Homeproduct);
   const [search, setSearch] = useState('');
 
-  // Shop category filter
   const Filter = (x) => {
     const catefilter = Homeproduct.filter((product) => product.cat === x);
     setShop(catefilter);

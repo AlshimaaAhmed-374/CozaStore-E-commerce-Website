@@ -26,8 +26,6 @@ const Nav = ({search,setSearch,searchproduct,onLogout}) => {
                         <img src="img/Logo.png" alt="logo" />
                     </div>
                     <div className="search_box">
-                        <input type="text" value={search} placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
-                        <button onClick={searchproduct}><AiOutlineSearch /></button>
                     </div>
                         <div className="user">
                             <div className="icon">

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import './home.css';
 import { Link } from "react-router-dom";
-import { AiFillEye, AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
+import { AiOutlineShoppingCart, AiFillHeart } from "react-icons/ai";
 import { BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiLogoYoutube } from "react-icons/bi";
 import { useWishlist } from '../WishlistContexttt';
+import { FaAccessibleIcon, FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from 'axios';
+import { FiHeart } from "react-icons/fi";
 
 const Home = ({ addtocart,userId  }) => {
     const [newProduct, setNewProduct] = useState([]);
@@ -12,9 +14,16 @@ const Home = ({ addtocart,userId  }) => {
     const [topProduct, setTopProduct] = useState([]);
     const [trendingProduct, setTrendingProduct] = useState([]);
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+    const [message, setMessage] = useState("");
+
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    const showMessage = (text) => {
+    setMessage(text);
+    setTimeout(() => setMessage(""), 5000); // hide after 3 seconds
+    };
 
     const fetchProducts = async () => {
         try {
@@ -55,16 +64,25 @@ const Home = ({ addtocart,userId  }) => {
         fetchProducts();
     };
 
-        const handleWishlistClick = (product) => {
+    const handleWishlistClick = (product) => {
         if (isInWishlist(product._id)) {
             removeFromWishlist(product._id);
+            showMessage("Removed from wishlist!");
         } else {
             addToWishlist(product);
+            showMessage("Added to wishlist!");
         }
     };
 
+
     return (
+        
         <div className="home">
+            {message && (
+                <div className="message-popup">
+                    {message}
+                </div>
+                )}
             <div className="top_banner">
                 <div className="contant">
                     <h3>silver aluminum</h3>
@@ -95,14 +113,17 @@ const Home = ({ addtocart,userId  }) => {
                                             <img src={curElm.img} alt={curElm.name} />
                                             <div className="icon">
                                                 <div className={`icon_box ${isInWishlist(curElm._id) ? 'active' : ''}`} onClick={() => handleWishlistClick(curElm)}>
-                                                <AiFillHeart />
+                                                <FiHeart />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="info">
                                             <h3>{curElm.name}</h3>
                                             <p>${curElm.price}</p>
-                                            <button className="btn" onClick={() => addtocart(curElm)}>Add to cart</button>
+                                            <button className="btn" onClick={() => {
+                                                addtocart(curElm);
+                                                showMessage("Successfully added to cart!");
+                                            }}>Add to cart</button>
                                         </div>
                                     </div>
                                 ))}

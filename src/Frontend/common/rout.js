@@ -15,7 +15,7 @@ const MainRoutes = ({ shop, Filter, allcatefilter, addtocart, cart, setCart, onL
             <Route path='/' element={<Home addtocart={addtocart} />} />
             <Route path='/cart' element={<Cart cart={cart} setCart={setCart}/>} />
             <Route path='shop' element={<Shop shop={shop} Filter={Filter} allcatefilter={allcatefilter} addtocart={addtocart} />} />
-            <Route path="/profile-page" element={<Profile onLogout={onLogout} />} />
+            <Route path="/profile-page" element={<Profile addtocart={addtocart} onLogout={onLogout}/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/contact-page" element={<Contact  />} />

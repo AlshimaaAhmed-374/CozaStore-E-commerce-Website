@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { checkout } = require('../controllers/Order_controller');
-
-router.post('/checkout', checkout);
+const { getOrders } = require('../controllers/Order_controller');
+const  requireAuth  = require('../middleware/authMiddleware');
+router.get('/',requireAuth, getOrders);
 
 module.exports = router;

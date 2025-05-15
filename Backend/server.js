@@ -6,14 +6,13 @@ const connectDB = require('./config/db.js');
 const cors = require('cors');
 const { requireAuth } = require('./middleware/authMiddleware');
 
-
 dotenv.config();
 const homeRoutes = require("./routes/home.routes.js");
 const shopRoutes = require("./routes/shop.routes.js");
 const wishlistRoutes = require("./routes/wishList.routes.js");
 
 const app = express();
-
+app.use(CookieParser());
 // Middleware
 app.use(express.json());
 app.use(CookieParser());
@@ -29,18 +28,13 @@ app.use(authRoutes);
 const PORT = process.env.PORT || 5000
 
 
-
-
-
-
 // Middlewares
 app.use(express.json()); // allows us to accept JSON data in the req.body
-app.use(cors());
 
 // Routes
 app.use('/home', homeRoutes);
 app.use('/shop', shopRoutes);
-app.use('/api/wishlist', wishlistRoutes);
+app.use('/wishlist', wishlistRoutes);
 
 // Starting the server
 app.listen(PORT, () => {

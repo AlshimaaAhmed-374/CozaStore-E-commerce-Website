@@ -14,7 +14,7 @@ const createToken = (id) => {
 
 module.exports.signup_post = async (req, res) => {
   const { username , email, password 
-    //, phone , address ,avatar,wishlist 
+   // , phone , address ,avatar,wishlist 
    } = req.body;
   console.log(req.body);
   try {
@@ -24,8 +24,9 @@ module.exports.signup_post = async (req, res) => {
     });  // this is an async function and need to be awaited
     console.log(user);
     const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.cookie('alshimaa', token, {  maxAge: maxAge * 2000 });
+    console.log(token);
+    res.cookie('jwt', token, {  maxAge: maxAge * 1000 });
+    //res.cookie('alshimaa', token, {  maxAge: maxAge * 2000 });
 
     res.status(201).json(user._id);
     console.log(user);
@@ -45,6 +46,8 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
+    console.log(token);
+
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
   } 

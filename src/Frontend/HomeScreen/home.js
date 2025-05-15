@@ -6,7 +6,7 @@ import { BiLogoFacebook, BiLogoInstagram, BiLogoTwitter, BiLogoYoutube } from "r
 import { useWishlist } from '../WishlistContexttt';
 import axios from 'axios';
 
-const Home = ({ addtocart }) => {
+const Home = ({ addtocart,userId  }) => {
     const [newProduct, setNewProduct] = useState([]);
     const [featuredProduct, setFeaturedProduct] = useState([]);
     const [topProduct, setTopProduct] = useState([]);
@@ -56,8 +56,8 @@ const Home = ({ addtocart }) => {
     };
 
         const handleWishlistClick = (product) => {
-        if (isInWishlist(product.id)) {
-            removeFromWishlist(product.id);
+        if (isInWishlist(product._id)) {
+            removeFromWishlist(product._id);
         } else {
             addToWishlist(product);
         }
@@ -95,7 +95,7 @@ const Home = ({ addtocart }) => {
                                             <img src={curElm.img} alt={curElm.Name} />
                                             <div className="icon">
                                                 <div className="icon_box"><AiFillEye /></div>
-                                                <div className={`icon_box ${isInWishlist(curElm.id) ? 'active' : ''}`} onClick={() => handleWishlistClick(curElm)}>
+                                                <div className={`icon_box ${isInWishlist(curElm._id) ? 'active' : ''}`} onClick={() => handleWishlistClick(curElm)}>
                                                 <AiFillHeart />
                                                 </div>
                                             </div>

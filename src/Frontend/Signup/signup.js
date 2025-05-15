@@ -34,27 +34,64 @@ const Signup = () => {
       confirmPassword: ''
     },
     validationSchema,
-    onSubmit: async (values) => {
+    // onSubmit: async (values) => {
+    //   try {
+    //     // Here you would typically make an API call to your backend
+    //     console.log('Signup data:', values);
+        
+    //     // Simulate API call delay
+    //     await new Promise(resolve => setTimeout(resolve, 1000));
+        
+    //     // Show success popup
+    //     setShowSuccessPopup(true);
+        
+    //     // After 2 seconds, redirect to login
+    //     setTimeout(() => {
+    //       navigate('/login');
+    //     }, 1000);
+        
+    //   } catch (error) {
+    //     console.error('Signup error:', error);
+    //     alert('Signup failed. Please try again.');
+    //   }
+    // }
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        // Here you would typically make an API call to your backend
-        console.log('Signup data:', values);
-        
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
+        const response = await fetch('http://localhost:5000/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: values.name,
+            email: values.email,
+            password: values.password
+          }),
+          credentials: 'include' // ✅ Important if you're setting cookies from the backend
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Signup failed');
+        }
+
         // Show success popup
         setShowSuccessPopup(true);
-        
-        // After 2 seconds, redirect to login
+
+        // After a delay, redirect to login
         setTimeout(() => {
           navigate('/login');
         }, 1000);
-        
+
       } catch (error) {
         console.error('Signup error:', error);
-        alert('Signup failed. Please try again.');
+        alert(error.message || 'Signup failed. Please try again.');
+      } finally {
+        setSubmitting(false);
       }
     }
+
   });
 
   return (

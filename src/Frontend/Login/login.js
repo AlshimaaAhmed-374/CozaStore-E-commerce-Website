@@ -4,12 +4,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './login.css';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .required('Email is required')
@@ -25,31 +24,39 @@ const Login = () => {
       password: ''
     },
     validationSchema,
-    onSubmit: async (values) => {
+   onSubmit: async (values) => {
       try {
         setIsSubmitting(true);
         setError(null);
-        
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // In a real app, you would make an API call here
-        console.log('Login submitted with:', values);
-        
-        // For demo purposes, we'll accept any non-empty password
-        // In a real app, you would verify credentials with your backend
-        if (values.password.length > 0) {
-          navigate('/home');
-        } else {
-          setError('Invalid credentials');
+
+        const response = await fetch("http://localhost:5000/login", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(values)
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.message || "Login failed");
         }
+
+        const data = await response.json();
+        console.log("Login success:", data);
+
+        onLogin(data.userId); // ✅ this triggers state change in App.js
+        navigate("/");
+
       } catch (err) {
-        console.error('Login error:', err);
-        setError('Login failed. Please try again.');
+        console.error("Login error:", err.message);
+        setError("Login failed: " + err.message);
       } finally {
         setIsSubmitting(false);
       }
     }
+
   });
 
   return (
@@ -68,9 +75,9 @@ const Login = () => {
             onBlur={formik.handleBlur}
             value={formik.values.email}
           />
-          {formik.touched.email && formik.errors.email ? (
+          {formik.touched.email && formik.errors.email && (
             <div className="error-message">{formik.errors.email}</div>
-          ) : null}
+          )}
         </div>
         
         <div className="form-group">
@@ -83,9 +90,9 @@ const Login = () => {
             onBlur={formik.handleBlur}
             value={formik.values.password}
           />
-          {formik.touched.password && formik.errors.password ? (
+          {formik.touched.password && formik.errors.password && (
             <div className="error-message">{formik.errors.password}</div>
-          ) : null}
+          )}
         </div>
         
         <button

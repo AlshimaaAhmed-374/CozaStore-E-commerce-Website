@@ -16,7 +16,7 @@ module.exports.signup_post = async (req, res) => {
   const { username , email, password 
    // , phone , address ,avatar,wishlist 
    } = req.body;
-  console.log(req.body);
+   console.log("req.body:",req.body);
   try {
     
     const user = await User.create({ username,email, password 

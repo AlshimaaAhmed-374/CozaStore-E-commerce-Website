@@ -39,8 +39,8 @@ app.use('/shop', shopRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 
 // Starting the server
-app.listen(PORT, () => {
+app.listen(5000, () => {
     connectDB();  // Make sure you call the function to connect to MongoDB here
-    console.log("Server started at http://localhost:" + PORT);
+    console.log("Server started at http://localhost:" + 5000);
 });
 

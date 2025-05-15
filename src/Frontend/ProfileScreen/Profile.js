@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillHeart, AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiLogoFacebook, BiLogoTwitter, BiLogoInstagram } from "react-icons/bi";
 import { useWishlist } from "../WishlistContexttt";
 import './profile.css';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = ({ onLogout }) => {
     const navigate = useNavigate();
-
-  const handleLogout = () => {
-    onLogout(); // Call the logout handler from props
-    navigate('/'); // Navigate to the login page
-  };
+    const handleLogout = () => {
+        onLogout();
+        navigate('/');
+    };
+    
     const [activeTab, setActiveTab] = useState('profile');
     const [avatar, setAvatar] = useState(null);
     const [user, setUser] = useState({
-        username: 'Aienkrekmanov',
-        email: 'azkrekmanov@gmail.com',
-        phone: '+359 123 456 789',
-        address: '123 Main Street, Sofia, Bulgaria'
+        username: '',
+        email: '',
+        phone: '',
+        address: ''
     });
+
     const { wishlist, removeFromWishlist } = useWishlist();
 
     const [purchaseHistory] = useState([
@@ -28,9 +28,33 @@ const Profile = ({ onLogout }) => {
         { id: 2, orderId: 'ORD124', date: '2023-06-20', total: 129.99, items: 2, status: 'Shipped' },
     ]);
 
+    useEffect(() => {
+       const fetchUser = async () => {
+                try {
+                    const res = await fetch('http://localhost:5000/api/users', {
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (!res.ok) throw new Error('Failed to fetch user');
+                    const data = await res.json();
+                    setUser(data);
+                    if (data.avatar) setAvatar(data.avatar);
+                } catch (err) {
+                    console.error("Error fetching user:", err);
+                }
+        };
+        fetchUser();
+    }, []);
+
     const handleAvatarChange = (e) => {
         if (e.target.files && e.target.files[0]) {
-            setAvatar(URL.createObjectURL(e.target.files[0]));
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatar(reader.result);
+            };
+            reader.readAsDataURL(e.target.files[0]);
         }
     };
 
@@ -39,33 +63,42 @@ const Profile = ({ onLogout }) => {
         setUser(prev => ({ ...prev, [name]: value }));
     };
 
+   const handleUpdateProfile = async () => {
+        try {
+            const formData = { ...user };
+            if (avatar) formData.avatar = avatar;
+
+            const res = await fetch('http://localhost:5000/api/users/update-me', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(formData)
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Update failed');
+            
+            alert("Profile updated successfully!");
+            setUser(data.data);
+            if (data.data.avatar) setAvatar(data.data.avatar);
+        } catch (error) {
+            console.error("Update failed:", error);
+            alert(error.message);
+        }
+    };
+
+    
     return (
         <div className="profile-page">
             <div className="profile-container">
                 <div className="profile-sidebar">
                     <div className="sidebar-menu">
-                        <button 
-                            className={activeTab === 'profile' ? 'active' : ''}
-                            onClick={() => setActiveTab('profile')}
-                        >
-                            Profile
-                        </button>
-                        <button 
-                            className={activeTab === 'wishlist' ? 'active' : ''}
-                            onClick={() => setActiveTab('wishlist')}
-                        >
-                            Wishlist ({wishlist.length})
-                        </button>
-                        <button 
-                            className={activeTab === 'history' ? 'active' : ''}
-                            onClick={() => setActiveTab('history')}
-                        >
-                            Order History
-                        </button>
-                        <div>
-                        {/* Your profile content */}
-                        <button className="signout-btn" onClick={handleLogout}>Sign Out</button>
-                        </div>
+                        <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>Profile</button>
+                        <button className={activeTab === 'wishlist' ? 'active' : ''} onClick={() => setActiveTab('wishlist')}>Wishlist ({wishlist.length})</button>
+                        <button className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>Order History</button>
+                       <button className="signout-btn" onClick={handleLogout}>Sign Out</button>
                     </div>
                 </div>
 
@@ -81,15 +114,8 @@ const Profile = ({ onLogout }) => {
                                     ) : (
                                         <div className="avatar-placeholder">No Avatar</div>
                                     )}
-                                    <input 
-                                        type="file" 
-                                        id="avatar-upload" 
-                                        onChange={handleAvatarChange} 
-                                        accept="image/*"
-                                    />
-                                    <label htmlFor="avatar-upload" className="upload-btn">
-                                        Upload Picture
-                                    </label>
+                                    <input type="file" id="avatar-upload" onChange={handleAvatarChange} accept="image/*" />
+                                    <label htmlFor="avatar-upload" className="upload-btn">Upload Picture</label>
                                 </div>
                                 <div className="social-connect">
                                     <button className="social-btn facebook"><BiLogoFacebook /> Add Facebook</button>
@@ -100,47 +126,25 @@ const Profile = ({ onLogout }) => {
 
                             <div className="form-group">
                                 <label>Username:</label>
-                                <input 
-                                    type="text" 
-                                    name="username" 
-                                    value={user.username} 
-                                    onChange={handleInputChange}
-                                />
+                                <input type="text" name="username" value={user.username} onChange={handleInputChange} />
                             </div>
 
                             <div className="form-group">
                                 <label>E-mail:</label>
-                                <input 
-                                    type="email" 
-                                    name="email" 
-                                    value={user.email} 
-                                    onChange={handleInputChange}
-                                />
+                                <input type="email" name="email" value={user.email} onChange={handleInputChange} />
                             </div>
 
                             <div className="form-group">
                                 <label>Phone Number:</label>
-                                <input 
-                                    type="tel" 
-                                    name="phone" 
-                                    value={user.phone} 
-                                    onChange={handleInputChange}
-                                    placeholder="Enter your phone number"
-                                />
+                                <input type="tel" name="phone" value={user.phone} onChange={handleInputChange} placeholder="Enter your phone number" />
                             </div>
 
                             <div className="form-group">
                                 <label>Shipping Address:</label>
-                                <textarea 
-                                    name="address" 
-                                    value={user.address} 
-                                    onChange={handleInputChange}
-                                    placeholder="Enter your shipping address"
-                                    rows="4"
-                                />
+                                <textarea name="address" value={user.address} onChange={handleInputChange} placeholder="Enter your shipping address" rows="4" />
                             </div>
 
-                            <button className="update-btn">Update Information</button>
+                            <button className="update-btn" onClick={handleUpdateProfile}>Update Information</button>
                         </div>
                     )}
 
@@ -159,15 +163,8 @@ const Profile = ({ onLogout }) => {
                                                 <p>${product.price}</p>
                                             </div>
                                             <div className="product-actions">
-                                                <button 
-                                                    className="action-btn heart active"
-                                                    onClick={() => removeFromWishlist(product.id)}
-                                                >
-                                                    <AiFillHeart />
-                                                </button>
-                                                <button className="action-btn cart">
-                                                    <AiOutlineShoppingCart />
-                                                </button>
+                                                <button className="action-btn heart active" onClick={() => removeFromWishlist(product.id)}><AiFillHeart /></button>
+                                                <button className="action-btn cart"><AiOutlineShoppingCart /></button>
                                             </div>
                                         </div>
                                     ))
@@ -206,9 +203,7 @@ const Profile = ({ onLogout }) => {
                                                     <td>{order.items}</td>
                                                     <td>${order.total}</td>
                                                     <td>{order.status}</td>
-                                                    <td>
-                                                        <button className="view-btn">View Details</button>
-                                                    </td>
+                                                    <td><button className="view-btn">View Details</button></td>
                                                 </tr>
                                             ))}
                                         </tbody>

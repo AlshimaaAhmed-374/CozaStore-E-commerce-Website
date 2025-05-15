@@ -26,7 +26,7 @@ const CallHomeScreen = ({ onLogout }) => {
 
   // Add to cart
   const addtocart = (product) => {
-    const exist = cart.find((x) => x.id === product.id);
+    const exist = cart.find((x) => x._id === product._id);
     if (exist) {
       alert('This product is already added to cart');
     } else {

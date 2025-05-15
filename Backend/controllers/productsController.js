@@ -47,9 +47,9 @@ const GetAllProducts = async (req, res) => {
 };
 const getProductDetails = async (req, res) => {
 	try {
-	  const { id } = req.params; // Get product ID from URL params
+	  const { id } = req.params; 
   
-	  // Find product by ID
+	  
 	  const product = await Product.findOne({ id: Number(id) });
   
 	  if (!product) {
@@ -72,6 +72,6 @@ const getProductDetails = async (req, res) => {
 	  });
 	}
   };
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports= {GetProductsH: GetProductsHome, GetProductsS:GetProductsShop , GetAllProducts: GetAllProducts ,getProductDetails}

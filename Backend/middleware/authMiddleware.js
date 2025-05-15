@@ -6,9 +6,11 @@ dotenv.config();
 
 const requireAuth = async (req, res, next) => {
   const token = req.cookies.jwt;
- // console.log('Cookies:', req.cookies);
 
-  //console.log('Token123:', token);
+  console.log('Cookies:', req.cookies);
+
+  console.log('Token123:', token);
+
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
@@ -18,7 +20,8 @@ const requireAuth = async (req, res, next) => {
         return res.status(401).json({ error: 'Unauthorized' });
       } else {
         try {
-          //console.log('Decoded Token:', decodedToken);
+          console.log('Decoded Token:', decodedToken);
+
 
           // Use decodedToken.id instead of _id
           const user = await User.findById(decodedToken.id);

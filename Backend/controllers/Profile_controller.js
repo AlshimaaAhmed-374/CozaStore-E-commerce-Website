@@ -1,9 +1,10 @@
 const User = require('../models/users.model');
 
-// GET User (your original function - unchanged)
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const userId = req.user._id;
+
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }

@@ -24,27 +24,27 @@ const userSchema = new mongoose.Schema(
       minlength: [8,'Minimum password length is 6 characters'],
       select: true // Never return password in queries
     },
-    // phone: {
-    //   type: String,
-    //   default: '',
-    //   trim: true
-    // },
-    // address: {
-    //   type: String,
-    //   default: '',
-    //   trim: true
-    // },
-    // avatar: {
-    //   type: String,
-    //   default: '',
-    //   trim: true
-    // },
-    // wishlist: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Product'
-    //   }
-    // ]
+    phone: {
+      type: String,
+      default: '',
+      trim: true
+    },
+    address: {
+      type: String,
+      default: '',
+      trim: true
+    },
+    avatar: {
+      type: String,
+      default: '',
+      trim: true
+    },
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+      }
+    ]
   },
   {
     timestamps: true

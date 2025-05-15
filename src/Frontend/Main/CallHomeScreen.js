@@ -4,7 +4,7 @@ import Rout from '../common/rout';
 import Footer from '../common/footer';
 import Homeproduct from '../home_product';
 
-const CallHomeScreen = () => {
+const CallHomeScreen = ({ onLogout }) => {
   const [cart, setCart] = useState([]);
   const [shop, setShop] = useState(Homeproduct);
   const [search, setSearch] = useState('');
@@ -37,15 +37,21 @@ const CallHomeScreen = () => {
 
   return (
     <>
-      <Nav search={search} setSearch={setSearch} searchproduct={searchproduct} />
-      <Rout
-        setCart={setCart}
-        cart={cart}
-        shop={shop}
-        Filter={Filter}
-        allcatefilter={allcatefilter}
-        addtocart={addtocart}
-      />
+<Nav
+      search={search}
+      setSearch={setSearch}
+      searchproduct={searchproduct}
+      onLogout={onLogout}
+    />
+    <Rout
+      setCart={setCart}
+      cart={cart}
+      shop={shop}
+      Filter={Filter}
+      allcatefilter={allcatefilter}
+      addtocart={addtocart}
+      onLogout={onLogout}
+    />
       <Footer />
     </>
   );

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { MdLocalShipping } from "react-icons/md";
 import './nav.css';
 import { AiOutlineSearch } from "react-icons/ai";
-import { FiLogIn } from "react-icons/fi";
-import { CiLogout, CiUser } from "react-icons/ci";
-import { useAuth0 } from "@auth0/auth0-react";
+import { CiLogout } from "react-icons/ci";
 
-const Nav = ({search,setSearch,searchproduct}) => {
-    const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+const Nav = ({search,setSearch,searchproduct,onLogout}) => {
+        const handleLogoutClick = () => {
+        onLogout(); // trigger logout logic passed from parent
+    };
     return (
         <>
             <div className="header">
@@ -29,51 +29,17 @@ const Nav = ({search,setSearch,searchproduct}) => {
                         <input type="text" value={search} placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
                         <button onClick={searchproduct}><AiOutlineSearch /></button>
                     </div>
-                    {
-                        isAuthenticated ?
                         <div className="user">
                             <div className="icon">
                                 <CiLogout />
                             </div>    
                             <div className="btn">
-                                <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</button>
+                                <button onClick={() => handleLogoutClick()}>Logout</button>
                             </div>
                         </div>
-                        :
-                        <div className="user">
-                            <div className="icon">
-                                <FiLogIn />
-                            </div>    
-                            <div className="btn">
-                                <button onClick={() => loginWithRedirect()}>Login</button>
-                            </div>
-                        </div>
-                    }
                 </div>
-
                 <div className="last_header">
                     <div className="user-profile">
-                        {
-                            isAuthenticated ?
-                            <>
-                                <div className="icon">
-                                    <CiUser />
-                                </div>
-                                <div className="info">
-                                    <h2>{user.name}</h2>
-                                    <p>{user.email}</p>
-                                </div>
-                            </>
-                            :
-                            <>
-                                <div className="icon">
-                                    <CiUser />
-                                </div>
-                                <div className="info">
-                                    <p>Please Login</p>
-                                </div>
-                            </>
-                        }
                     </div>
 
                     <div className="nav">

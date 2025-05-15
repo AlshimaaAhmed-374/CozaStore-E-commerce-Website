@@ -6,8 +6,13 @@ import './profile.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const Profile = ({ onLogout }) => {
     const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout(); // Call the logout handler from props
+    navigate('/'); // Navigate to the login page
+  };
     const [activeTab, setActiveTab] = useState('profile');
     const [avatar, setAvatar] = useState(null);
     const [user, setUser] = useState({
@@ -16,10 +21,6 @@ const Profile = () => {
         phone: '+359 123 456 789',
         address: '123 Main Street, Sofia, Bulgaria'
     });
-    const handleSignOut = () => {
-        // Add any sign-out logic here (clearing tokens, etc.)
-        navigate('/login'); // Redirect to login page
-    };
     const { wishlist, removeFromWishlist } = useWishlist();
 
     const [purchaseHistory] = useState([
@@ -61,7 +62,10 @@ const Profile = () => {
                         >
                             Order History
                         </button>
-                        <button className="signout-btn" onClick={handleSignOut}>Sign Out</button>
+                        <div>
+                        {/* Your profile content */}
+                        <button className="signout-btn" onClick={handleLogout}>Sign Out</button>
+                        </div>
                     </div>
                 </div>
 

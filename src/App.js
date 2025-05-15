@@ -2,20 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Frontend/Login/login';
 import Signup from './Frontend/Signup/signup';
-import Home from './Frontend/Main/CallHomeScreen';
 import { WishlistProvider } from './Frontend/WishlistContexttt.js';
+import CallHomeScreen from './Frontend/Main/CallHomeScreen';
+import Contact from "./Frontend/ContactScreen/Contact";
+import About from "./Frontend/AboutScreen/About";
+import Profile from "./Frontend/ProfileScreen/Profile";
 
 function App() {
-  // Initialize login state from sessionStorage
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return sessionStorage.getItem('isLoggedIn') === 'true';
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(() => sessionStorage.getItem('isLoggedIn') === 'true');
+  const [userId, setUserId] = useState(() => sessionStorage.getItem('userId') || null);
 
-  const [userId, setUserId] = useState(() => {
-    return sessionStorage.getItem('userId') || null;
-  });
-
-  // Handle login
   const handleLogin = (id) => {
     setIsLoggedIn(true);
     setUserId(id);
@@ -23,7 +19,6 @@ function App() {
     sessionStorage.setItem('userId', id);
   };
 
-  // Handle logout
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserId(null);
@@ -31,7 +26,6 @@ function App() {
     sessionStorage.removeItem('userId');
   };
 
-  // Sync state with sessionStorage on logout
   useEffect(() => {
     if (!isLoggedIn) {
       sessionStorage.setItem('isLoggedIn', 'false');
@@ -42,35 +36,26 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
-        <Route 
-          path="/login" 
-          element={!isLoggedIn ? 
-            <Login onLogin={handleLogin} /> : 
-            <Navigate to="/" replace />} 
-        />
-        <Route 
-          path="/signup" 
-          element={!isLoggedIn ? 
-            <Signup onLogin={handleLogin} /> : 
-            <Navigate to="/" replace />} 
-        />
-        
+        <Route path="/login" element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />} />
+        <Route path="/signup" element={!isLoggedIn ? <Signup onLogin={handleLogin} /> : <Navigate to="/" replace />} />
+
         {/* Protected routes */}
-        <Route 
-          path="/" 
-          element={isLoggedIn ? 
-            <WishlistProvider>
-              <Home onLogout={handleLogout} userId={userId} />
-            </WishlistProvider> : 
-            <Navigate to="/login" replace />} 
-        />
-        
+        {isLoggedIn && (
+          <>
+            <Route
+              path="/*"
+              element={
+                <WishlistProvider>
+                  <CallHomeScreen onLogout={handleLogout} userId={userId} />
+                </WishlistProvider>
+              }
+            />
+
+          </>
+        )}
+
         {/* Catch-all route */}
-        <Route 
-          path="*" 
-          element={<Navigate to={isLoggedIn ? "/" : "/login"} replace />} 
-        />
+        <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} replace />} />
       </Routes>
     </BrowserRouter>
   );

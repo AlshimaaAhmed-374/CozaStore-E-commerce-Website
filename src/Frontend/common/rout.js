@@ -19,7 +19,7 @@ const Rout = ({shop,Filter,allcatefilter,addtocart,cart,setCart }) => {
             <Route path='shop' element={<Shop shop={shop} Filter={Filter} allcatefilter={allcatefilter} addtocart={addtocart} />} />
             <Route path="/profile-page" element={<Profile />} />
             <Route path="/login" element={<Login />} />
-             <Route path="/Signup" element={<Signup />} />
+            <Route path="/Signup" element={<Signup />} />
             <Route path="/contact-page" element={<Contact  />} />
             <Route path="/about-page" element={<About />} />
         </Routes>

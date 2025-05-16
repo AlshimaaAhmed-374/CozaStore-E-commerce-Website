@@ -21,7 +21,7 @@ const Home = ({ addtocart,userId  }) => {
 
     const showMessage = (text) => {
     setMessage(text);
-    setTimeout(() => setMessage(""), 3000); // hide after 3 seconds
+    setTimeout(() => setMessage(""), 2000); 
     };
 
     const fetchProducts = async () => {
@@ -184,7 +184,10 @@ const Home = ({ addtocart,userId  }) => {
                                     <h3>{curElm.name}</h3>
                                     <p>${curElm.price}</p>
                                     <div className="icon">
-                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                <button  onClick={() => {
+                                                addtocart(curElm);
+                                                showMessage("Successfully added to cart!");
+                                            }}><AiOutlineShoppingCart /></button>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +207,10 @@ const Home = ({ addtocart,userId  }) => {
                                     <h3>{curElm.name}</h3>
                                     <p>${curElm.price}</p>
                                     <div className="icon">
-                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                <button  onClick={() => {
+                                                addtocart(curElm);
+                                                showMessage("Successfully added to cart!");
+                                            }}><AiOutlineShoppingCart /></button>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +230,10 @@ const Home = ({ addtocart,userId  }) => {
                                     <h3>{curElm.name}</h3>
                                     <p>${curElm.price}</p>
                                     <div className="icon">
-                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                <button  onClick={() => {
+                                                addtocart(curElm);
+                                                showMessage("Successfully added to cart!");
+                                            }}><AiOutlineShoppingCart /></button>
                                     </div>
                                 </div>
                             </div>

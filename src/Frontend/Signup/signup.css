@@ -17,6 +17,15 @@
   margin-bottom: 15px;
 }
 
+.error-display {
+  color: red;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ffcccc;
+  background-color: #ffeeee;
+  border-radius: 4px;
+  font-size: 14px;
+}
 .form-group label {
   display: block;
   margin-bottom: 5px;

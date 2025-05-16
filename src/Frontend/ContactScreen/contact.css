@@ -90,8 +90,8 @@
 }
 
 .send-button {
-  background-color: #4a90e2;
-  color: white;
+  background-color: #fed700;
+  color: #333;
   border: none;
   padding: 12px 30px;
   border-radius: 5px;
@@ -104,8 +104,9 @@
 }
 
 .send-button:hover {
-  background-color: #3a7bc8;
-  transform: translateY(-1px);
+  background-color: #cd1e76;
+    color: #fed700;
+
 }
 
 /* Disabled button state */

@@ -34,8 +34,8 @@
 .signup-button {
   width: 100%;
   padding: 10px;
-  background-color: #28a745;
-  color: white;
+  background-color: #fed700;
+  color: #333;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -44,7 +44,9 @@
 }
 
 .signup-button:hover {
-  background-color: #218838;
+  background-color: #cd1e76;
+    color: #fed700;
+
 }
 
 .login-link {

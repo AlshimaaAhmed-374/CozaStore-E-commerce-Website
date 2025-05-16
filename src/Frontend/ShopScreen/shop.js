@@ -1,6 +1,6 @@
 import React from 'react'
 import './shop.css';
-import { FaHeart ,FaEye} from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { useWishlist } from '../WishlistContexttt';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -42,7 +42,7 @@ const fetchProducts = async (category = 'all') => {
         <div className='shop'> 
             <h2>#shop</h2>
             <p>Home . shop</p>
-            <div className='containar'>
+            <div className='container'>
                 <div className='left_box'>
                     <div className='category'>
                         <div className='header'>
@@ -53,9 +53,7 @@ const fetchProducts = async (category = 'all') => {
                                 <li onClick={() => handleCategoryClick()}>#All</li>
                                 <li onClick={() => handleCategoryClick("tv")}>#tv</li>
                                 <li onClick={() => handleCategoryClick("laptop")}>#laptop</li>
-                                <li onClick={() => handleCategoryClick("watch")}>#watch</li>
-                                <li onClick={() => handleCategoryClick("speaker")}>#speaker</li>
-                                <li onClick={() => handleCategoryClick("electronics")}>#electronics</li>
+                                <li onClick={() => handleCategoryClick("smartwatch")}>#smart watch</li>
                                 <li onClick={() => handleCategoryClick("headphone")}>#headphone</li>
                                 <li onClick={() => handleCategoryClick("phone")}>#phone</li>
                             </ul>
@@ -74,7 +72,7 @@ const fetchProducts = async (category = 'all') => {
                             {shop.map((curElm) => (
                                 <div className='box' key={curElm._id}>
                                     <div className='img_box'>
-                                        <img src={curElm.img} alt={curElm.Name} />
+                                        <img src={curElm.img} alt={curElm.name} />
                                         <div className='icon'>
                                             <li 
                                                 onClick={() => handleWishlistClick(curElm)}
@@ -82,11 +80,10 @@ const fetchProducts = async (category = 'all') => {
                                             >
                                                 <FaHeart />
                                             </li>
-                                            <li><FaEye /></li> 
                                         </div>
                                     </div>
                                     <div className='detail'>
-                                        <h3>{curElm.Name}</h3>
+                                        <h3>{curElm.name}</h3>
                                         <p>${curElm.price}</p>
                                         <button onClick={() => addtocart(curElm)}>Add to cart</button>
                                     </div>

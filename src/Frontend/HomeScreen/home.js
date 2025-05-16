@@ -138,7 +138,7 @@ const Home = ({ addtocart,userId  }) => {
                                 </div>
                                 <div className="detail">
                                     <div className="img_box">
-                                        <img src='img/qq' alt='testimonial' />
+                                        <img src='https://i.pinimg.com/736x/20/fe/82/20fe821ee9e14d053ee1c1060d7bb91a.jpg' alt='testimonial' />
                                     </div>
                                     <div className="info">
                                         <h3>Stephan</h3>

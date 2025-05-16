@@ -43,7 +43,7 @@
 }
 
 .sidebar-menu button.active {
-    background: #3498db;
+    background: #cd1e76;
     font-weight: bold;
 }
 
@@ -98,8 +98,8 @@
 }
 
 .upload-btn {
-    background: #3498db;
-    color: white;
+   background: #fed700;
+        color: #333;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
@@ -164,8 +164,8 @@
 }
 
 .update-btn {
-    background: #27ae60;
-    color: white;
+    background: #fed700;
+    color: #333;
     border: none;
     padding: 0.8rem 1.5rem;
     border-radius: 4px;
@@ -175,7 +175,9 @@
 }
 
 .update-btn:hover {
-    background: #2ecc71;
+    background: #cd1e76;
+        color: #fed700;
+
 }
 
 .wishlist-products {

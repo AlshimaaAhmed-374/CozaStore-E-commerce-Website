@@ -46,8 +46,6 @@ const handleWishlistClick = (product) => {
                     {message}
                 </div>
                 )}
-            <h2>#shop</h2>
-            <p>Home . shop</p>
             <div className='container'>
                 <div className='left_box'>
                     <div className='category'>

@@ -32,7 +32,6 @@ const Cart = ({ cart, setCart }) => {
     return (
         <>
             <div className="cart">
-                <h3>#cart</h3>
                 {
                     cart.length === 0 &&
                     <div className="empty_cart">
@@ -53,7 +52,7 @@ const Cart = ({ cart, setCart }) => {
                                 <div className="detail">
                                     <div className="info">
                                         <h4>{curElm.cat}</h4>
-                                        <h3>{curElm.Name}</h3>
+                                        <h3>{curElm.name}</h3>
                                         <p>Price: ${curElm.price}</p>
                                         <p>Total: ${curElm.price * curElm.qty}</p>
                                     </div>

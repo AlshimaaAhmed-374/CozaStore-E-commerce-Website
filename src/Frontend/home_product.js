@@ -6,7 +6,7 @@ const Homeproduct = [
         img: 'img/image(1).png',
         cat: 'tv',
         type: 'new'
-    },
+    },  
     {
         id: 2,
         Name: 'product2',

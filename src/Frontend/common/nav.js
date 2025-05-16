@@ -46,9 +46,7 @@ const Nav = ({onLogout}) => {
                             <li><Link to='/cart' className='link'>Cart</Link></li>
                             <li><Link to='/about-page' className='link'>About</Link></li>
                             <li><Link to='/contact-page' className='link'>Contact</Link></li>
-                            <li><Link to='/profile-page' className='link'>
-                            Profile 
-                            </Link></li>
+                            <li><Link to='/profile-page' className='link'>Profile </Link></li>
                         </ul>
                     </div>
 

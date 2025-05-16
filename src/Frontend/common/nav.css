@@ -29,11 +29,12 @@
     max-width: 100%;
     justify-content: space-between;
 }
-.header .mid_header .logo img{
+/* In your CSS */
+.header .mid_header .logo img {
     cursor: pointer;
     object-fit: cover;
+    /* Remove the background property */
 }
-
 .header .mid_header .search_box input{
     padding: 10px 10px;
     outline: none;

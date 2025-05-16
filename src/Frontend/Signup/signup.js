@@ -6,9 +6,9 @@ import './signup.css';
 
 const Signup = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [backendError, setBackendError] = useState(null);
   const navigate = useNavigate();
 
-  // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required('Full name is required')
@@ -19,8 +19,7 @@ const Signup = () => {
       .email('Invalid email address'),
     password: Yup.string()
       .required('Password is required')
-      .min(8, 'Password must be at least 8 characters')
-      ,
+      .min(8, 'Password must be at least 8 characters'),
     confirmPassword: Yup.string()
       .required('Please confirm your password')
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -34,28 +33,8 @@ const Signup = () => {
       confirmPassword: ''
     },
     validationSchema,
-    // onSubmit: async (values) => {
-    //   try {
-    //     // Here you would typically make an API call to your backend
-    //     console.log('Signup data:', values);
-        
-    //     // Simulate API call delay
-    //     await new Promise(resolve => setTimeout(resolve, 1000));
-        
-    //     // Show success popup
-    //     setShowSuccessPopup(true);
-        
-    //     // After 2 seconds, redirect to login
-    //     setTimeout(() => {
-    //       navigate('/login');
-    //     }, 1000);
-        
-    //   } catch (error) {
-    //     console.error('Signup error:', error);
-    //     alert('Signup failed. Please try again.');
-    //   }
-    // }
     onSubmit: async (values, { setSubmitting }) => {
+      setBackendError(null);
       try {
         const response = await fetch('http://localhost:5000/signup', {
           method: 'POST',
@@ -67,37 +46,48 @@ const Signup = () => {
             email: values.email,
             password: values.password
           }),
-          credentials: 'include' // ✅ Important if you're setting cookies from the backend
+          credentials: 'include'
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error || 'Signup failed');
+          throw new Error(data.message || 'Signup failed');
         }
 
-        // Show success popup
         setShowSuccessPopup(true);
-
-        // After a delay, redirect to login
         setTimeout(() => {
           navigate('/login');
         }, 1000);
 
       } catch (error) {
         console.error('Signup error:', error);
-        alert(error.message || 'Signup failed. Please try again.');
+        setBackendError(error.message);
       } finally {
         setSubmitting(false);
       }
     }
-
   });
 
   return (
     <div className="signup-container">
       <h2>Sign Up</h2>
       <form onSubmit={formik.handleSubmit}>
+        {/* Error message with red styling */}
+        {backendError && (
+          <div className="error-message" style={{
+            color: 'red',
+            backgroundColor: '#ffebee',
+            border: '1px solid #ef9a9a',
+            padding: '12px',
+            borderRadius: '4px',
+            marginBottom: '16px',
+            fontSize: '14px'
+          }}>
+            {backendError}
+          </div>
+        )}
+
         <div className="form-group">
           <label htmlFor="name">Full Name:</label>
           <input
@@ -108,9 +98,9 @@ const Signup = () => {
             onBlur={formik.handleBlur}
             value={formik.values.name}
           />
-          {formik.touched.name && formik.errors.name ? (
-            <div className="error-message">{formik.errors.name}</div>
-          ) : null}
+          {formik.touched.name && formik.errors.name && (
+            <div className="field-error">{formik.errors.name}</div>
+          )}
         </div>
         
         <div className="form-group">
@@ -123,9 +113,9 @@ const Signup = () => {
             onBlur={formik.handleBlur}
             value={formik.values.email}
           />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="error-message">{formik.errors.email}</div>
-          ) : null}
+          {formik.touched.email && formik.errors.email && (
+            <div className="field-error">{formik.errors.email}</div>
+          )}
         </div>
         
         <div className="form-group">
@@ -138,9 +128,9 @@ const Signup = () => {
             onBlur={formik.handleBlur}
             value={formik.values.password}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="error-message">{formik.errors.password}</div>
-          ) : null}
+          {formik.touched.password && formik.errors.password && (
+            <div className="field-error">{formik.errors.password}</div>
+          )}
         </div>
         
         <div className="form-group">
@@ -153,9 +143,9 @@ const Signup = () => {
             onBlur={formik.handleBlur}
             value={formik.values.confirmPassword}
           />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <div className="error-message">{formik.errors.confirmPassword}</div>
-          ) : null}
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+            <div className="field-error">{formik.errors.confirmPassword}</div>
+          )}
         </div>
         
         <button
@@ -171,11 +161,11 @@ const Signup = () => {
         Already have an account? <a href="/login">Login</a>
       </p>
 
-      {/* Success Popup */}
       {showSuccessPopup && (
         <div className="success-popup">
           <div className="popup-content">
             <h3>Signup Successful!</h3>
+            <p>Redirecting to login page...</p>
           </div>
         </div>
       )}

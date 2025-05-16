@@ -22,7 +22,7 @@ const Nav = ({onLogout}) => {
 
                 <div className="mid_header">
                     <div className="logo">
-                        <img src="img/Logo.png" alt="logo" />
+                        <img src='Assets/logo-01.png' alt="logo" />
                     </div>
                     <div className="search_box">
                     </div>

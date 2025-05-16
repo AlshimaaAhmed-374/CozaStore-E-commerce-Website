@@ -7,34 +7,36 @@ import { useState, useEffect } from 'react';
 const Shop = ({ addtocart }) => {
     const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
    
-    const [shop, setShop] = useState([]); // State to store products
+    const [shop, setShop] = useState([]); 
+const [message, setMessage] = useState("");
 
-    // Fetch products based on the category (if provided)
-  // For specific category
 const fetchProducts = async (category = 'all') => {
     const url = category === 'all' 
         ? 'http://localhost:5000/shop/all' 
         : `http://localhost:5000/shop?cat=${category}`;
     const response = await axios.get(url);
-    setShop(response.data.data);  // Assuming 'data' holds the product array
+    setShop(response.data.data);  
 };
-
-
-    // Fetch products when the component mounts or category changes
-    useEffect(() => {
-        fetchProducts(); // Default fetch for all products on mount
-    }, []);
-
-    // Handle category click (filter products by category)
-    const handleCategoryClick = (category) => {
-        fetchProducts(category); // Fetch products based on category selection
+const showMessage = (text) => {
+    setMessage(text);
+    setTimeout(() => setMessage(""), 3000);
     };
 
-    const handleWishlistClick = (product) => {
+    useEffect(() => {
+        fetchProducts(); 
+    }, []);
+
+    const handleCategoryClick = (category) => {
+        fetchProducts(category);
+    };
+
+const handleWishlistClick = (product) => {
         if (isInWishlist(product._id)) {
             removeFromWishlist(product._id);
+            showMessage("Removed from wishlist!");
         } else {
             addToWishlist(product);
+            showMessage("Added to wishlist!");
         }
     };
 
@@ -71,23 +73,22 @@ const fetchProducts = async (category = 'all') => {
                         <div className='product_container'>
                             {shop.map((curElm) => (
                                 <div className='box' key={curElm._id}>
-                                    <div className='img_box'>
-                                        <img src={curElm.img} alt={curElm.name} />
-                                        <div className='icon'>
-                                            <li 
-                                                onClick={() => handleWishlistClick(curElm)}
-                                                className={isInWishlist(curElm._id) ? 'active' : ''}
-                                            >
-                                                <FaHeart />
-                                            </li>
-                                        </div>
-                                    </div>
-                                    <div className='detail'>
-                                        <h3>{curElm.name}</h3>
-                                        <p>${curElm.price}</p>
-                                        <button onClick={() => addtocart(curElm)}>Add to cart</button>
-                                    </div>
-                                </div>
+    <div className='img_box'>
+        <img src={curElm.img} alt={curElm.name} />
+        <div className='icon'>
+            <li onClick={() => handleWishlistClick(curElm)}>
+                <div className={`icon_box ${isInWishlist(curElm._id) ? 'active' : ''}`}>
+                    <FaHeart />
+                </div>
+            </li>
+        </div>
+    </div>
+    <div className='detail'>
+        <h3>{curElm.name}</h3>
+        <p>${curElm.price}</p>
+        <button  onClick={() => {  addtocart(curElm);   }}>Add to cart</button>
+    </div>
+</div>
                             ))}
                         </div>
                     </div>

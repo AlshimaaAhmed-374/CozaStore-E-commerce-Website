@@ -192,14 +192,6 @@
     font-size: 14px;
     color: #8a8a8a;
     margin-bottom: 5px;
-    /* Remove these lines */
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-    /* Add these instead */
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
-    -webkit-box-orient: vertical;
     overflow: hidden;
     height: 2.8em; /* Approximate height for 2 lines */
 }

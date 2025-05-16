@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import { MdLocalShipping } from "react-icons/md";
 import './nav.css';
 import { CiLogout } from "react-icons/ci";
 
 const Nav = ({onLogout}) => {
         const handleLogoutClick = () => {
-        onLogout(); // trigger logout logic passed from parent
+        onLogout(); 
     };
     return (
         <>
@@ -43,7 +42,7 @@ const Nav = ({onLogout}) => {
                             <li><Link to='/profile-page' className='link'>Profile </Link></li>
                         </ul>
                     </div>
-
+                    
                     <div className="offer">
                         <p>flat 10% over all iPhone</p>
                     </div>

@@ -1,30 +1,27 @@
 <!-- Cover Page -->
-#  🛒 CozaStore
-###  E-commerce Website
-#####  Team[14]
+
+# 🛒 CozaStore
+
+### E-commerce Website
+
+##### Team[14]
 
 ---
 
-
 <br><br><br><br><br><br>
 
-
-
-|👤 Team member|🆔 ID|📚 Section|
-|-----------|--|-------|
-|**فرحة أحمد علي زكي**|**2022170307**|****|
-|**فجر أشرف اسماعيل عبدالمنعم**|**2022170305**|****|
-|**كنزي عادل صلاح محمد**|**2022170316**|****|
-|**الشيماء أحمد محمد علي**|**2022170071**|****|
-|**بانسيه عبدالناصر محمود ابوالفتوح**|**2022170090**|****|
-|**أمنية محمود أحمد محمد**|**2022170075**|****|
-
+| 👤 Team member                       | 🆔 ID          | 📚 Section |
+| ------------------------------------ | -------------- | ---------- |
+| **فرحة أحمد علي زكي**                | **2022170307** | **4**   |
+| **فجر أشرف اسماعيل عبدالمنعم**       | **2022170305** | **4**   |
+| **كنزي عادل صلاح محمد**              | **2022170316** | **4**   |
+| **الشيماء أحمد محمد علي**            | **2022170071** | **1**  |
+| **بانسيه عبدالناصر محمود ابوالفتوح** | **2022170090** | **1**   |
+| **أمنية محمود أحمد محمد**            | **2022170075** | **1**   |
 
 <div style="page-break-after: always;"></div>
 
-
-
-## 📄 Project Overview: 
+## 📄 Project Overview:
 
 ### 🛒 Introduction
 
@@ -32,77 +29,98 @@
 
 ### 🎯 Objectives
 
-- Deliver a **user-friendly shopping experience** with intuitive navigation. 
-  
-- Provide **advanced product filtering** (Trending, New, Featured, Top-Selling).  
-  
-- Allow users to **save items for later** via a wishlist feature. 
-   
-- Ensure a **secure and smooth checkout process**.  
-  
-- Maintain **order history** for user convenience.  
-  
-- Offer **accessible customer support** through a dedicated Contact page.  
-
+* Deliver a **user-friendly shopping experience** with intuitive navigation.
+* Provide **advanced product filtering** (by category and type).
+* Allow users to **save items for later** via a wishlist feature.
+* Ensure a **secure and smooth checkout process**.
+* Maintain **order history** for user convenience.
+* Offer **accessible customer support** through feedback system.
 
 ### 📌 Scope
 
 This project focuses on implementing the core functionalities required for an online shopping experience, including:
 
-- **User Management**: Registration, login, password encryption, and session handling.
-- **Product Catalog**: Displaying product details, categories, and types with images.
-- **Shopping Experience**:
-  - Filtering products *(Trending, New, Featured, Top-Selling)* and browse them.
-  - Adding items to cart or wishlist.
-  - Placing orders and handling payments.
-- **Order Tracking**: Storing and retrieving order history per user.
-- **Support & Info Pages**: Contact page for user inquiries and About page for platform info.
+* **User Management**: Registration, login, password encryption, and profile management.
+* **Product Catalog**: Displaying product details with images, categories, and types.
+* **Shopping Experience**:
+  * Filtering products by category/type
+  * Adding items to wishlist
+  * Placing orders with quantity selection
+* **Order Tracking**: Storing and retrieving order history per user.
+* **Feedback System**: Collecting user reviews and feedback.
 
-
+<!-- Improved entities section to match actual DB schemas -->
 ### 🧩 Entities and Their Roles
-
 
 #### 👤 User
 
-- **Description**: Represents an individual registered on the platform.
-- **Attributes**:
-  - `Username`: Unique name of the user (required).
-  - `E-mail`: Must be a valid, unique email address (required).
-  - `Password`: Encrypted password (minimum 8 characters, required).
-- **Other Features**:
-  - Passwords are encrypted using **`bcrypt`** before being saved.
-  - Includes a method to compare plaintext and hashed passwords.
-- **Role in the System**:
-  - Registers and logs in to the system.
-  - Can place orders, add product to wishlist, view orders history, and manage personal account data.
-
----
+* **Description**: Represents an individual registered on the platform.
+* **Attributes**:
+  * `username`: Unique identifier (required, trimmed)
+  * `email`: Valid and unique email (required, validated)
+  * `password`: Encrypted (min 8 chars, required)
+  * `phone`: Optional contact number
+  * `address`: Optional shipping address
+  * `avatar`: Optional profile image
+  * `wishlist`: Array of product references
+* **Security Features**:
+  * Passwords encrypted using **`bcrypt`** (salt + hash)
+  * Static login method for authentication
+* **Role in the System**:
+  * Places orders and manages personal data
+  * Maintains wishlist of favorite products
+  * Submits feedback
 
 #### 📦 Product
 
-- **Description**: Represents an item available for sale in the store.
-- **Attributes**:
-  - `ID` , `Name`, `Price`, `Image`, `Details` , `Category` ,`Type`
-- **Role in the System**:
-  - Displayed to users during browsing and checkout.
-  - Referenced in order records and user interactions (wishlist/cart).
-
----
+* **Description**: Represents an item available for sale.
+* **Attributes**:
+  * `name`: Product title (required)
+  * `price`: Numeric value (required)
+  * `img`: Image URL (required)
+  * `cat`: Category (required)
+  * `type`: Classification (required)
+* **Role in the System**:
+  * Displayed in product listings
+  * Referenced in orders and wishlists
+  * Categorized for filtering
 
 #### 🧾 Order
 
-- **Description**: Represents a customer's purchase transaction.
-- **Attributes**:
-  - `User`: Reference to the `User` who placed the order (required).
-  - `Products`: List of all items included in the order. Each item includes these attributes:
-    - `Product`
-    - `Quantity`: Default is 1.
-    - `Purchased-At-Price`
-  - `Total-Amount`: Sum total of all products in the order (required).
-  - `Status`: Current state of the order (`pending`, `completed`, or `cancelled`), default is `pending`.
-- **Role in the System**:
-  - Stores a record of user purchases.
-  - Facilitates order tracking and management through the user profile.
+* **Description**: Records customer purchase transactions.
+* **Attributes**:
+  * `user`: Reference to ordering user (required)
+  * `products`: Array with:
+    * `product`: Reference to Product
+    * `quantity`: Number of items (default: 1)
+    * `purchasedAtPrice`: Snapshot of price at time of purchase
+  * `totalAmount`: Calculated order total (required)
+  * `status`: Enum (pending/completed/cancelled)
+* **Role in the System**:
+  * Tracks purchase history
+  * Maintains order state
+  * Records transactional data
+
+#### 💬 Feedback
+
+* **Description**: Stores customer reviews and inquiries.
+* **Attributes**:
+  * `name`: Reviewer's name (required, max 50 chars)
+  * `email`: Valid email (required)
+  * `review`: Feedback content (10-500 chars)
+* **Role in System**:
+  * Collects user opinions
+  * Provides customer support channel
+
+#### ❤️ Wishlist
+
+* **Description**: Tracks user's favorite products.
+* **Attributes**:
+  * `user`: Reference to User (required, unique)
+  * `products`: Array of Product references
+* **Role in System**:
+  * Saves products for later viewing
+  * Personalizes user experience
 
 ---
 
@@ -112,91 +130,74 @@ This project focuses on implementing the core functionalities required for an on
 
 #### 1.1 🧑‍💼 User Registration
 
-- **Description**: Allows new users to create an account.
-- **Pre-condition**:
-  - The user is not logged in.
-  - The user provides a unique username, valid email, and password.
-- **Post-condition**:
-  - A new user account is created.
-  - Password is securely hashed using **`bcrypt`**.
-
----
+* **Description**: Allows new users to create an account.
+* **Pre-condition**:
+  * User provides unique username, valid email, and password (8+ chars).
+* **Post-condition**:
+  * Account created with encrypted password.
+  * Default empty wishlist initialized.
 
 #### 1.2 🔐 User Login
 
-- **Description**: Authenticates a user using email and password.
-- **Pre-condition**:
-  - The user has an existing account.
-  - The provided credentials are valid.
-- **Post-condition**:
-  - User is authenticated.
-  - A session or authentication token is created.
-
----
+* **Description**: Authenticates users via email/password.
+* **Pre-condition**:
+  * Valid credentials provided.
+* **Post-condition**:
+  * User authenticated via bcrypt comparison.
+  * Session established.
 
 ### 2. 🛒 Product Browsing & Interaction
 
 #### 2.1 🛍️ Browse and Filter Products
 
-- **Description**: Users can view and filter products by category, or tags (Trending, New, Featured, Top-Selling).
-- **Pre-condition**:
-  - User navigates the home page or shop page then select the filer.
-- **Post-condition**:
-  - Products matching the selected filters are displayed.
+* **Description**: View products filtered by category/type.
+* **Pre-condition**:
+  * User accesses product listings.
+* **Post-condition**:
+  * Filtered products displayed.
 
----
+#### 2.2 ❤️ Wishlist Management
 
-#### 2.2 🧺 Add Product to Cart/Wishlist
-
-- **Description**: Users can add selected products to their shopping cart or wishlist.
-- **Pre-condition**:
-  - User is logged in.
-  - User is viewing a product.
-  - User press on the **heart icon** in the product view to add it to the wishing-list or press on the **add to cart** button.
-- **Post-condition**:
-  - Product is added to the wishlist or to cart.
-
----
+* **Description**: Add/remove products from wishlist.
+* **Pre-condition**:
+  * User is authenticated.
+  * Product exists.
+* **Post-condition**:
+  * Wishlist document updated.
 
 ### 3. 🧾 Order Management
 
-#### 3.1 💳 Place an Order
+#### 3.1 💳 Place Order
 
-- **Description**: Users can purchase products in their cart.
-- **Pre-condition**:
-  - User is logged in.
-  - Cart contains products.
-  - Payment information is provided.
-- **Post-condition**:
-  - An order is created.
-  - Total amount is calculated and saved.
-  - Order status is set to `pending`.
+* **Description**: Convert cart items to order.
+* **Pre-condition**:
+  * User authenticated.
+  * Products selected.
+* **Post-condition**:
+  * Order created with:
+    * Product snapshots
+    * Calculated total
+    * Pending status
 
----
+#### 3.2 📜 View Order History
 
-#### 3.2 🧾 View Order History
-
-- **Description**: Users can view a list of all their past orders.
-- **Pre-condition**:
-  - User is logged in.
-  - User navigates the **profile** page then select the **order history** filter.
-- **Post-condition**:
-  - List of user's orders is retrieved and displayed.
-
----
+* **Description**: Display user's past orders.
+* **Pre-condition**:
+  * User authenticated.
+* **Post-condition**:
+  * Orders populated with product details.
 
 ### 4. 📞 Customer Support
 
-#### 4.1 📬 Contact Support
+#### 4.1 📝 Submit Feedback
 
-- **Description**: Users can submit inquiries or issues via a contact form.
-- **Pre-condition**:
-  - User fills in the contact form with valid data.
-- **Post-condition**:
-  - Support request is submitted to the admin/support team.
+* **Description**: Collect user reviews.
+* **Pre-condition**:
+  * Form with valid data submitted.
+* **Post-condition**:
+  * Feedback document created.
 
 ---
-
 
 # 📄 Technical Requirements
 
@@ -212,36 +213,39 @@ graph TD
     C --> D[Database: MongoDB]
     C --> E[Payment Gateway]
     C --> F[Email Service]
-    
+
 ```
+---
 
 ### 1.2 Key Components
 
 |Component| Technology | Responsibility|
 |---------|------------|---------------|
-|**Frontend**| `React`, `HTML/CSS`, `JavaScript` (interacts with backend via `API`).| It provides UI rendering, filtering, cart/wishlist management.|
+|**Frontend**| `React`, `HTML/CSS`, `JavaScript`.| It provides UI rendering, filtering, cart/wishlist management.|
 |**Backend**| `Node.js` with `Express.js`.| It contains API logic, sessions, and authentication.|
 |**Database**| `MongoDB` (accessed via `Mongoose`).| It Store users, products, orders.|
 |**Authentication**| `Bcrypt`| password hashing and session/token-based authentication.|
 
+---
 
 ## 2. 💾 Infrastructure Requirements
 
 ### 2.1 Server Setup
+
 |Item|Details|
 |----|--------|
-|**Web Server**|	Node.js + Express|
-|**Database**|	MongoDB|
-|**Authentication**|	bcrypt + sessions or JWT|
-|**Config**|	.env for DB URI, secret keys|
+|**Web Server**|	`Node.js` + `Express`|
+|**Database**|	`MongoDB`|
+|**Authentication**|	`bcrypt` + `sessions or JWT`|
+
 
 ### 2.2 Environment Variables
 
 |Item|Details|
 |----|--------|
 |`MONGODB_URI`| MongoDB connection string.|
-|`JWT_SECRET`| Secret key for token generation (if JWT used).|
-|`SESSION_SECRET`| For session handling (if using sessions).|
+|`JWT_SECRET`| Token signing key.|
+|`SESSION_SECRET`| For session handling.|
 |`PORT`| Server port.|
 
 ### 2.3 Third-Party Services
@@ -262,42 +266,9 @@ graph TD
 |**Framework**|	Express|	REST API|
 |**DB**|	MongoDB + Mongoose|	NoSQL + modeling|
 |**Auth**|	bcryptjs|	Password hashing|
-|**Environment**|	dotenv|	Env variables|
 |**Frontend**|	React| UI rendering|
 |**VCS**|	Git + GitHub|	Version control|
 |**Diagramming**|	Mermaid|	Visual diagrams|
-
----
-
-## 4. 🧩 Entity Relationship Overview
-
-```mermaid
-erDiagram
-    User ||--o{ Order : places
-    Order }o--|| Product : contains
-
-    User {
-      string username
-      string email
-      string password
-    }
-
-    Product {
-      number id
-      string name
-      number price
-      string img
-      string details
-      string cat
-      string type
-    }
-
-    Order {
-      string status
-      number totalAmount
-      array products
-    }
-```
 
 ---
 
@@ -307,49 +278,79 @@ erDiagram
 
 erDiagram
     USER ||--o{ ORDER : "places"
-    PRODUCT ||--o{ ORDER : "contained in"
+    PRODUCT ||--o{ ORDER : "included in"
+    USER ||--o{ FEEDBACK : "writes"
+    USER ||--|| WISHLIST : "has"
+    PRODUCT ||--o{ WISHLIST : "favorited in"
 
     USER {
-        string username PK 
-        string email 
-        string password 
+        ObjectId _id PK
+        string username
+        string email
+        string password
+        string phone
+        string address
+        string avatar
+        array wishlist
         timestamp createdAt
         timestamp updatedAt
     }
-    
+
     PRODUCT {
-        number id PK 
-        string name 
-        number price 
-        string img 
-        string details 
-        string cat 
-        string type 
+        ObjectId _id PK
+        string name
+        number price
+        string img
+        string cat
+        string type
         timestamp createdAt
         timestamp updatedAt
     }
-    
+
     ORDER {
         ObjectId _id PK
-        ObjectId user FK 
-        array products 
-        number totalAmount 
-        string status 
+        ObjectId user FK
+        array products
+        number totalAmount
+        string status
         timestamp createdAt
+        timestamp updatedAt
+    }
+
+    FEEDBACK {
+        ObjectId _id PK
+        string name
+        string email
+        string review
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    WISHLIST {
+        ObjectId _id PK
+        ObjectId user FK
+        array products
         timestamp updatedAt
     }
 
 ```
+
 ---
+
 ### 🧑‍💼 Users Collection
 
-|Field |Type |Constraints |Description |
-|------|-----|------------|------------|
-|**Username** |String |Required, Unique, Trimmed |Unique username for the user |
-|**Email** |String |Required, Unique, Valid email format |User's email address |
-|**Password** |String |Required, Minlength: 8, Hashed | Encrypted user password |
-|**CreatedAt** |Date   |Auto-generated |Timestamp of creation |
-|**UpdatedAt** |Date   |Auto-generated |Timestamp of last update |
+| Field    | Type       | Constraints      |Description    |                  
+|----------|------------|------------------|---------------|
+| `_id`    | ObjectId   | Auto-generated   | Unique user identifier  |
+| `username`| String    | **Required**, Unique, Trimmed     | User's unique handle     |
+| `email`  | String     | **Required**, Unique, Validated with regex and isEmail, Lowercase | User's email address|
+| `password`| String    | **Required**, Minlength: 8, Hashed with bcrypt, `select: false` by default | Securely hashed password|
+| `phone`  | String     | Optional, Trimmed | Contact number |
+| `address`| String     | Optional, Trimmed | Shipping address|
+| `avatar` | String     | Optional, Trimmed | Profile image URL|
+| `wishlist`| ObjectId[]| References Product model| Array of favorite products|
+| `createdAt`| Date     | Auto-generated    | Timestamp of account creation|
+| `updatedAt`| Date     | Auto-generated    | Timestamp of last update     |
 
 🔐 Passwords are hashed using bcryptjs before saving to the database
 
@@ -357,38 +358,81 @@ erDiagram
 
 ### 🛍️ Products Collection
 
-| Field | Type | Constraints | Description |
-|-------|------|-------------|-------------|
-| **Id** | Number | Required, Unique | Product identifier |
-| **Name** | String | Required | Product name |
-| **Price** | Number | Required | Price of the product |
-| **Img** | String | Required | URL of the product image |
-| **Details** | String | Required | Description/details of the product |
-| **Cat** | String | Required | Category of the product |
-| **Type** | String | Required | Type/variant of the product |
-| **CreatedAt** | Date | Auto-generated | Timestamp of creation |
-| **UpdatedAt** | Date | Auto-generated | Timestamp of last update |
+| Field       | Type     | Constraints               | Description                             |
+|-------------|----------|---------------------------|-----------------------------------------|
+| `_id`       | ObjectId | Auto-generated            | Unique product identifier               |
+| `name`      | String   | **Required**              | Product name                            |
+| `price`     | Number   | **Required**              | Current price in local currency         |
+| `img`       | String   | **Required**              | URL to product image                    |
+| `cat`       | String   | **Required**              | Main category (e.g. "Electronics")      |
+| `type`      | String   | **Required**              | Sub-category (e.g. "Smartphones")       |
+| `createdAt` | Date     | Auto-generated            | Timestamp of product creation           |
+| `updatedAt` | Date     | Auto-generated            | Timestamp of last update                |
 
 ---
 
 ### 📦 Orders Collection
 
-| Field | Type | Constraints | Description |
-|-------|------|-------------|-------------|
-| **User** | ObjectId | Required, Ref: User | ID of the user who placed the order |
-| **Products** | Array | Contains: product ref, quantity, purchased price | List of ordered items with details |
-| **TotalAmount** | Number | Required | Total price for the entire order |
-| **Status** | String | Enum: pending, completed, cancelled | Current status of the order |
-| **CreatedAt** | Date | Auto-generated | Timestamp of order creation |
-| **UpdatedAt** | Date | Auto-generated | Timestamp of last order update |
+| Field       | Type       | Constraints   | Description   |
+|-------------|------------|---------------|---------------|
+| `_id`       | ObjectId   | Auto-generated| Unique order identifier|
+| `user`      | ObjectId   | **Required**, References User model| User who placed the order |
+| `products`  | Array      | **Required**  | Contains: `product` , `quantity`, `purchasedAtPrice`|
+| `totalAmount`| Number    | **Required**  | Calculated sum of all products in order|
+| `status`    | String     | Enum: ['pending','completed','cancelled']    | Current order status (Default: 'pending')|
+| `createdAt` | Date       | Auto-generated                               | Timestamp of order creation|
+| `updatedAt` | Date       | Auto-generated                               | Timestamp of last update|
+
+---
+
+### Feedback Collection
+
+| Field       | Type     | Constraints                                       | Description                         |
+|-------------|----------|---------------------------------------------------|-------------------------------------|
+| `_id`       | ObjectId | Auto-generated                                    | Unique feedback identifier          |
+| `name`      | String   | **Required**, Trimmed, Maxlength: 50              | Reviewer's name                     |
+| `email`     | String   | **Required**, Valid email format                  | Reviewer's contact email            |
+| `review`    | String   | **Required**, Trimmed, Minlength:10, Maxlength:500| Feedback content                    |
+| `createdAt` | Date     | Auto-generated                                    | Timestamp of submission             |
+| `updatedAt` | Date     | Auto-generated                                    | Timestamp of last update            |
+
+---
+
+### Wishlist Collection
+
+| Field       | Type       | Constraints                          | Description                         |
+|-------------|------------|--------------------------------------|-------------------------------------|
+| `_id`       | ObjectId   | Auto-generated                       | Unique wishlist identifier          |
+| `user`      | ObjectId   | **Required**, Unique, References User| Associated user                     |
+| `products`  | ObjectId[] | References Product model             | Array of favorite products         |
+| `updatedAt` | Date       | Auto-generated                       | Timestamp of last modification      |
 
 ---
 
 ### 🔄 Relationships & Constraints
 
-- **One-to-Many**: A User can place many Orders.
+#### One-to-Many
+- **User → Orders**  
+  A single user can place multiple orders  
+  `user: { type: ObjectId, ref: 'User', required: true }`
 
-- **Many-to-One**: Each Order references a single User.
+- **User → Feedback**  
+  A user can submit multiple feedback entries
 
-- **Many-to-Many (via embedded array)**: An Order can contain multiple Products, and each product can appear in multiple orders.
+#### One-to-One 
+- **User ↔ Wishlist**  
+  Each user has exactly one wishlist  
+  Enforced by: `user: { ..., unique: true }`
+
+#### Many-to-Many
+- **Wishlist ↔ Products**  
+  Wishlists contain multiple products  
+  Products appear in many wishlists  
+  ```javascript
+  products: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product', 
+    required: true
+  }]
+  ```
 

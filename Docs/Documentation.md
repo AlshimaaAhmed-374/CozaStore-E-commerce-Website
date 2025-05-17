@@ -211,7 +211,6 @@ graph TD
     A[Client] --> B[Frontend: React.js]
     B --> C[Backend: Node.js/Express]
     C --> D[Database: MongoDB]
-    C --> E[Payment Gateway]
     C --> F[Email Service]
 
 ```
@@ -253,7 +252,6 @@ graph TD
 |Item|Details|
 |----|--------|
 |**Email**| SendGrid / Nodemailer with SMTP.|
-|**Payment Gateway**| Stripe / PayPal.|
 
 ---
 
